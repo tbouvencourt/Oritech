@@ -4,7 +4,6 @@ import io.wispforest.owo.registration.reflect.FieldRegistrationHandler;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.Identifier;
 import org.slf4j.Logger;
@@ -18,11 +17,8 @@ import rearth.oritech.block.entity.pipes.GenericPipeInterfaceEntity;
 import rearth.oritech.client.init.ModScreens;
 import rearth.oritech.client.init.ParticleContent;
 import rearth.oritech.init.*;
-import rearth.oritech.init.OritechConfig;
 import rearth.oritech.init.recipes.RecipeContent;
 import rearth.oritech.init.world.FeatureContent;
-import rearth.oritech.item.tools.harvesting.PromethiumAxeItem;
-import rearth.oritech.item.tools.harvesting.PromethiumPickaxeItem;
 import rearth.oritech.network.NetworkContent;
 
 public class Oritech implements ModInitializer {
@@ -63,9 +59,10 @@ public class Oritech implements ModInitializer {
         FeatureContent.initialize();
         LootContent.init();
         
+        // for pipe data
         ServerLifecycleEvents.SERVER_STARTED.register(this::onServerStarted);
-        PlayerBlockBreakEvents.BEFORE.register(PromethiumPickaxeItem::preMine);
-        ServerTickEvents.START_WORLD_TICK.register(PromethiumAxeItem::onTick);
+        
+        // for particle collisions
         ServerTickEvents.END_SERVER_TICK.register(elem -> AcceleratorParticleLogic.onTickEnd());
     }
     

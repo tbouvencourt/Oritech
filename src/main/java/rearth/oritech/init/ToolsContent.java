@@ -3,6 +3,8 @@ package rearth.oritech.init;
 import io.wispforest.owo.registration.reflect.ItemRegistryContainer;
 import net.fabricmc.fabric.api.entity.event.v1.ServerLivingEntityEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerEntityEvents;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.UnbreakableComponent;
 import net.minecraft.entity.EquipmentSlot;
@@ -10,6 +12,7 @@ import net.minecraft.entity.damage.DamageTypes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
 import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.sound.SoundCategory;
 import rearth.oritech.init.datagen.data.TagContent;
 import rearth.oritech.item.tools.armor.*;
 import rearth.oritech.item.tools.harvesting.*;
@@ -70,6 +73,10 @@ public class ToolsContent implements ItemRegistryContainer {
     
     public static void registerEventHandlers() {
         
+        PlayerBlockBreakEvents.BEFORE.register(PromethiumPickaxeItem::preMine);
+        
+        ServerTickEvents.START_WORLD_TICK.register(PromethiumAxeItem::onTick);
+        
         ServerEntityEvents.EQUIPMENT_CHANGE.register((livingEntity, equipmentSlot, previousStack, currentStack) -> {
             if (livingEntity instanceof PlayerEntity playerEntity && equipmentSlot.getType() == EquipmentSlot.Type.HUMANOID_ARMOR) {
                 if (previousStack.getItem() instanceof ArmorEventHandler armorItem) {
@@ -86,7 +93,13 @@ public class ToolsContent implements ItemRegistryContainer {
             
             if (source.getTypeRegistryEntry().matchesKey(DamageTypes.FALL) && entity instanceof PlayerEntity player) {
                 var boots = player.getEquippedStack(EquipmentSlot.FEET);
-                return boots == null || !(boots.getItem() instanceof ExoArmorItem);
+                
+                if (boots == null) return true;
+                if (!(boots.getItem() instanceof ExoArmorItem)) return true;
+                
+                player.getWorld().playSound(null, player.getBlockPos(), SoundContent.SHORT_SERVO, SoundCategory.PLAYERS, 0.2f, 1.0f);
+                
+                return false;
             }
             return true;
         });
