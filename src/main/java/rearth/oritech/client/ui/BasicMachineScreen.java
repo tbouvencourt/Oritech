@@ -188,7 +188,7 @@ public class BasicMachineScreen<S extends BasicMachineScreenHandler> extends Bas
     }
     
     public boolean showExtensionPanel() {
-        return true;
+        return handler.screenData.showExpansionPanel();
     }
     
     @Override

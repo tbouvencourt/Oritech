@@ -52,6 +52,8 @@ public interface ScreenProvider {
     }
     
     default boolean showArmor() {return false;}
+    
+    default boolean showExpansionPanel() {return true;}
 
     default BarConfiguration getEnergyConfiguration() {
         return new BarConfiguration(7, 24, 15, 54);

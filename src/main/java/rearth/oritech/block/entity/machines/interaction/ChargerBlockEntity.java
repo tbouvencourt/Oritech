@@ -257,6 +257,11 @@ public class ChargerBlockEntity extends BlockEntity implements BlockEntityTicker
     }
     
     @Override
+    public boolean showExpansionPanel() {
+        return false;
+    }
+    
+    @Override
     public Storage<FluidVariant> getFluidStorage(Direction direction) {
         return fluidStorage;
     }
