@@ -22,7 +22,7 @@ import static rearth.oritech.block.blocks.pipes.GenericPipeBlock.*;
 
 public abstract class GenericPipeInterfaceEntity extends BlockEntity implements BlockEntityTicker<GenericPipeInterfaceEntity> {
     
-    public static final int MAX_SEARCH_COUNT = 256;
+    public static final int MAX_SEARCH_COUNT = 2048;
     
     public GenericPipeInterfaceEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
