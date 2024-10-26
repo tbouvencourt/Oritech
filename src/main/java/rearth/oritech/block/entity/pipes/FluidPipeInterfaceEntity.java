@@ -124,6 +124,12 @@ public class FluidPipeInterfaceEntity extends GenericPipeInterfaceEntity impleme
         }
         
         var targets = findNetworkTargets(pos, data);
+        
+        if (targets == null) {
+            System.err.println("We should never get here, and yet here we are. Please provide a video of how you produced this error as an issue on the oritech github");
+            return;
+        }
+        
         var netHash = targets.hashCode();
         
         if (netHash != filteredTargetsNetHash) {

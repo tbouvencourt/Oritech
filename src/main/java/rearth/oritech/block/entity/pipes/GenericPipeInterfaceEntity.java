@@ -210,9 +210,9 @@ public abstract class GenericPipeInterfaceEntity extends BlockEntity implements 
     }
     
     public static final class PipeNetworkData extends PersistentState {
-        public final HashMap<BlockPos, Integer> pipeNetworkLinks = new HashMap<>();
+        public final HashMap<BlockPos, Integer> pipeNetworkLinks = new HashMap<>(); // which blockpos belongs to which network (ID)
         public final HashSet<BlockPos> pipes = new HashSet<>();
-        public final HashMap<BlockPos, Set<BlockPos>> machineInterfaces = new HashMap<>(); // list of machines per interface
+        public final HashMap<BlockPos, Set<BlockPos>> machineInterfaces = new HashMap<>(); // list of machines per interface/connection block
         public final HashMap<Integer, Set<BlockPos>> pipeNetworks = new HashMap<>();   // networks are never updated, and instead always replaced by new ones with different ids
         public final HashMap<Integer, Set<Pair<BlockPos, Direction>>> pipeNetworkInterfaces = new HashMap<>(); // list of machines that are connected to the network
         
