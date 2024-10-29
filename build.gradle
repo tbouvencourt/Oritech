@@ -110,9 +110,6 @@ dependencies {
     // athena (CTM)
     modRuntimeOnly "earth.terrarium.athena:athena-fabric-${athena_version}"
 
-    // jade
-    modImplementation "curse.maven:jade-324717:${jade_id}"
-
     // recipe viewer runtime
     switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
         case "emi": modRuntimeOnly "dev.emi:emi-fabric:${emi_version}"; break
@@ -120,9 +117,6 @@ dependencies {
         case "disabled": break
         default: println("Unknown recipe viewer specified: ${recipe_viewer}. Must be EMI, REI, or disabled.")
     }
-
-    // mod menu
-    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
 
     // dependencies for datagen
     // Tech Reborn
@@ -137,6 +131,12 @@ dependencies {
     modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-base:${cardinal_components_version}"
     modRuntimeOnly "org.ladysnake.cardinal-components-api:cardinal-components-entity:${cardinal_components_version}"
     modRuntimeOnly "maven.modrinth:additionalentityattributes:${additional_entity_attributes_version}"
+
+    // mod menu
+    modImplementation "com.terraformersmc:modmenu:${project.modmenu_version}"
+
+    // jade
+    modImplementation "curse.maven:jade-324717:${jade_id}"
 }
 
 processResources {
