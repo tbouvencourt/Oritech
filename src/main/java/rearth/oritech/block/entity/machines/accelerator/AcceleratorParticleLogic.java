@@ -347,6 +347,11 @@ public class AcceleratorParticleLogic {
         toRemove.forEach(cachedGates::remove);
     }
     
+    public static void resetNearbyCache(BlockPos pos ) {
+        var toRemove = cachedGates.keySet().stream().filter(blockPos -> blockPos.getLeft().getManhattanDistance(pos) < Oritech.CONFIG.maxGateDist() + 1).toList();
+        toRemove.forEach(cachedGates::remove);
+    }
+    
     public static final class CompPair<A, B> extends Pair<A, B> {
         
         public CompPair(A left, B right) {

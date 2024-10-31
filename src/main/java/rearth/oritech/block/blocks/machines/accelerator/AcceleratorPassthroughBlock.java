@@ -48,6 +48,13 @@ public class AcceleratorPassthroughBlock extends HorizontalFacingBlock {
     }
     
     @Override
+    protected void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
+        if (!world.isClient) {
+            AcceleratorParticleLogic.resetNearbyCache(pos);
+        }
+    }
+    
+    @Override
     public void onDestroyedByExplosion(World world, BlockPos pos, Explosion explosion) {
         super.onDestroyedByExplosion(world, pos, explosion);
         AcceleratorParticleLogic.resetCachedGate(pos);
