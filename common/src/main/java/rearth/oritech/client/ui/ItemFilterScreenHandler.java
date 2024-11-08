@@ -13,6 +13,7 @@ import rearth.oritech.block.entity.pipes.ItemFilterBlockEntity;
 import rearth.oritech.client.init.ModScreens;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class ItemFilterScreenHandler extends ScreenHandler {
     
@@ -45,17 +46,20 @@ public class ItemFilterScreenHandler extends ScreenHandler {
             // don't add item to filter if it's already in filter
             if (item.isOf(displayStack.getItem())) return ItemStack.EMPTY;
         }
-        var newItems = new HashMap<Integer, ItemStack>(data.items());
+        var newItems = new HashMap<>(data.items());
         for (int i = 0; i < 8; i++) {
             if (!newItems.containsKey(i)) {
                 newItems.put(i, displayStack);
                 break;
             }
         }
+        
         var newData = new ItemFilterBlockEntity.FilterData(data.useNbt(), data.useWhitelist(), newItems);
         blockEntity.setFilterSettings(newData);
-        if (player instanceof ClientPlayerEntity clientPlayer && clientPlayer.client.currentScreen instanceof ItemFilterScreen filterScreen) {
-            filterScreen.updateItemFilters();
+        if (Objects.requireNonNull(blockEntity.getWorld()).isClient) {
+            if (player instanceof ClientPlayerEntity clientPlayer && clientPlayer.client.currentScreen instanceof ItemFilterScreen filterScreen) {
+                filterScreen.updateItemFilters();
+            }
         }
 
         return ItemStack.EMPTY;
