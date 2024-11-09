@@ -77,6 +77,8 @@ dependencies {
     // EMI
     modRuntimeOnly "dev.emi:emi-fabric:1.1.12+1.21"
 
+    modRuntimeOnly "org.sinytra:item-asset-export-fabric:1.0.2+1.21"
+
 }
 
 processResources {
