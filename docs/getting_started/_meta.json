@@ -1,12 +1,9 @@
 {
-  "block_destroyer.mdx": "Block Destroyer",
-  "block_placer.mdx": "Block Placer",
-  "deepdrill.mdx": "Deep Drill",
-  "enderic_laser.mdx": "Enderic Laser",
-  "fertilizer.mdx": "Fertilizer",
-  "machine_frames.mdx": "Machine Frames",
-  "particle_accelerator.mdx": "Particle Accelerator",
-  "pump.mdx": "Pump",
-  "redstone.mdx": "Redstone",
-  "tree_cutter.mdx": "Tree Cutter"
+  "gather_resources.mdx": "Gather resources",
+  "first_generator.mdx": "Basic Power Generation",
+  "assembling_components.mdx": "Assembling Components",
+  "alloys.mdx": "Making Steel (and other Alloys)",
+  "fragmenting.mdx": "Fragmenting Ores",
+  "lasers.mdx": "Lasers! And Fluxite",
+  "have_fun.mdx": "Have Fun"
 }
