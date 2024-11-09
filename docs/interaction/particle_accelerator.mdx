@@ -1,6 +1,6 @@
 ---
 title: Particle Accelerator
-icon: oritech:accelerator_ring_area
+icon: oritech:area/accelerator_ring_area
 ---
 
 The particle accelerator is used to, as you might guess, accelerate particles.
@@ -8,7 +8,7 @@ The particle starts from the particle accelerator block, where you can insert an
 A straight guide ring needs to be placed right behind the controller, facing to the side, with visuals aligning correctly.
 
 <center>
-<ModAsset location="oritech:accelerator_ring_area" width={500} />
+<ModAsset location="oritech:area/accelerator_ring_area" width={500} />
 </center>
 
 Once inserted, the particle travels along a route defined by the guide rings. They can be right-clicked to add a 45-degree turn on one side.
@@ -27,7 +27,7 @@ This means that at higher speeds, the distance between guide blocks can be large
 When a redstone signal is applied to a non-straight guide block, it becomes a switch block. When powered on, it leads particles straight; when powered off, it guides them into the original curved direction. A particle can also enter from the 'other' direction, visualized by the smaller red glass tube, following the path of the white tube, and entering from both the red and white tubes.
 
 <center>
-<ModAsset location="oritech:accelerator_switch_area" width={500} />
+<ModAsset location="oritech:area/accelerator_switch_area" width={500} />
 </center>
 
 At higher speeds, the particle can't take tight turns. If the last full 90-degree turn is too close, it exits the guided path and shoots out into the world. If the distance between guide blocks is too big, or no next guide is found, it will also shoot out. The minimum distance between turns is calculated as follows:
@@ -65,7 +65,7 @@ A particle's speed can be measured with a particle sensor. A comparator can then
 15. 15000
 
 <center>
-<ModAsset location="oritech:accelerator_speed_area" width={600} />
+<ModAsset location="oritech:area/accelerator_speed_area" width={600} />
 </center>
 
 ---
