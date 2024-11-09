@@ -11,7 +11,7 @@ wiki {
             // The path to the folder containing the documentation metadata file (sinytra-wiki.json)
             root = file('docs')
             exportedAssetNamespaces = ['oritech']
-            wikiAccessToken = '$WIKI_TOKEN'
+            wikiAccessToken = System.getenv('WIKI_TOKEN')
         }
     }
 }

@@ -186,6 +186,10 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.HEAD_ARMOR_ENCHANTABLE)
           .add(ToolsContent.EXO_HELMET);
         getOrCreateTagBuilder(ItemTags.CHEST_ARMOR_ENCHANTABLE)
+          .add(ToolsContent.JETPACK)
+          .add(ToolsContent.JETPACK_ELYTRA)
+          .add(ToolsContent.JETPACK_EXO_ELYTRA)
+          .add(ToolsContent.EXO_JETPACK)
           .add(ToolsContent.EXO_CHESTPLATE);
         getOrCreateTagBuilder(ItemTags.LEG_ARMOR_ENCHANTABLE)
           .add(ToolsContent.EXO_LEGGINGS);

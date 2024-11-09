@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-05T22:34:18.9356956	Oritech/Tags for minecraft:item
+// 1.21.1	2024-11-09T19:36:01.0988326	Oritech/Tags for minecraft:item
 cc51415941de06e104c2869273b40fc7d56a7947 data\c\tags\item\ingots.json
 acf26660aea7d38f0df68090951344c6d7733098 data\c\tags\item\nuggets\nickel.json
 9d161493224f72f5f9ef2ed9e1497644ecae5e4f data\c\tags\item\raw_materials.json
@@ -32,7 +32,7 @@ f8b1a5d00eda05b86c335748b7fa3c06b00fac18 data\minecraft\tags\item\enchantable\fo
 be6c4c2dc33a085ceb8b891787891010226941ab data\c\tags\item\wires.json
 3938afa280709db7e663d8e98bc35499e99f4465 data\c\tags\item\dusts\quartz.json
 3fa9df82ee9c23f250128dc4e72bc9f81205cf87 data\c\tags\item\raw_materials\dyes\black.json
-708eb3eff9ec76d18d0cbab3cdcccb49811e19a3 data\minecraft\tags\item\enchantable\chest_armor.json
+4c21d79a7483ec65617b13c3a16ab34feadd8bc8 data\minecraft\tags\item\enchantable\chest_armor.json
 c5014d2e2fd9dfeff0eccb24fcef5ba63b05cc7e data\minecraft\tags\item\cluster_max_harvestables.json
 967cc2f83983a364a5e3dcea16ac984ec53c55ad data\c\tags\item\ores\platinum.json
 b227e4ff6b893f38e73b9f9a935fab4286af4481 data\c\tags\item\ingots\steel.json
