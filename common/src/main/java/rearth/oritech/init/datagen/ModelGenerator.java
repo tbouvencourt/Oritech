@@ -12,7 +12,6 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.math.Direction;
 import rearth.oritech.Oritech;
 import rearth.oritech.init.BlockContent;
-import rearth.oritech.init.ItemContent;
 import rearth.oritech.init.ToolsContent;
 
 import java.util.HashSet;
@@ -163,8 +162,8 @@ public class ModelGenerator extends FabricModelProvider {
         itemModelGenerator.register(ToolsContent.EXO_CHESTPLATE, Models.GENERATED);
         itemModelGenerator.register(ToolsContent.EXO_LEGGINGS, Models.GENERATED);
         itemModelGenerator.register(ToolsContent.EXO_BOOTS, Models.GENERATED);
-        itemModelGenerator.register(ToolsContent.CHAINSAW, Models.GENERATED);
-        itemModelGenerator.register(ToolsContent.HAND_DRILL, Models.GENERATED);
+        itemModelGenerator.register(ToolsContent.CHAINSAW, Models.HANDHELD);
+        itemModelGenerator.register(ToolsContent.HAND_DRILL, Models.HANDHELD);
         itemModelGenerator.register(ToolsContent.JETPACK, Models.GENERATED);
         itemModelGenerator.register(ToolsContent.EXO_JETPACK, Models.GENERATED);
         itemModelGenerator.register(ToolsContent.JETPACK_ELYTRA, Models.GENERATED);
