@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-15T21:56:25.8290499	Oritech/Recipes
+// 1.21.1	2024-11-15T22:23:14.6226766	Oritech/Recipes
 3d8b60cdef5bcc031c796d168af32ac0c87a6a73 data\oritech\recipe\fuelgen\compat\techreborn\oil.json
 b4abaf925711776e5a62f694a33b26cb479e52c7 data\oritech\advancement\recipes\misc\biosteel_blockblock.json
 482a6bf779797c369ca77e964c30cb67416b3a7a data\oritech\recipe\iron_ingot_from_smelting_iron_dust.json
@@ -564,7 +564,7 @@ a50560f6c64b7f21165d6a834b3d2f252a4befa5 data\oritech\recipe\pulverizer\dust\com
 dd1ec2c483127447da6b74f795b3de6ed13c9f23 data\oritech\advancement\recipes\misc\nickel_ingot.json
 30125a085151bb5d2b203436069ff423a7597489 data\oritech\recipe\compat\energizedpower\alloyfurance\iron_gems.json
 86c7d13fb51b8d735e068595afffbbcda2f9b93e data\oritech\recipe\crafting\promaxe.json
-448617b0ca5cd7a0a3ca5171c5e31840ad7684bb data\oritech\recipe\crafting\spawner.json
+037c1cd768aa5a6f4c7c70ab5c0e2ab1d3f7f318 data\oritech\recipe\crafting\spawner.json
 cae5191ea84623bf7ca8b983442a386c71173ea6 data\oritech\recipe\nickel_ingot.json
 f8f957c0fe28bd0909d50995f6e54393f75d66b9 data\oritech\recipe\grinder\dust\compat\mythicmetals\kyber.json
 77ef5a93601dd3c51ffe74d90dbc4f1a434735b8 data\oritech\advancement\recipes\misc\crafting\fuelgen.json

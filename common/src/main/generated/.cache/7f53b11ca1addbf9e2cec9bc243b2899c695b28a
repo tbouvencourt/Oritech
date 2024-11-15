@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-15T21:56:25.8280392	Oritech/Block Loot Tables
+// 1.21.1	2024-11-15T22:23:14.6206737	Oritech/Block Loot Tables
 b0240bb2f2e72d6385b4e0df86dadd9241a3c84b data\oritech\loot_table\blocks\item_filter_block.json
 652c94ee12839692eb21558f351d5df78b53a7e9 data\oritech\loot_table\blocks\machine_plating_stairs.json
 a8ed9edf4f217cdd787c6fb98fba95c6ac773e2e data\oritech\loot_table\blocks\machine_core_4.json
@@ -32,8 +32,8 @@ c6b5c39f67982bb9baf3ac7055dba91ebd645e3c data\oritech\loot_table\blocks\machine_
 5c09a63bffe4ff16adfbb7a9c08e5c0514395df8 data\oritech\loot_table\blocks\energite_block.json
 cc21aecb5731a74254ac83dff2c07a9d62e479d8 data\oritech\loot_table\blocks\superconductor.json
 bb3e03f720ceb94ded7d75420d3d50752826c2e7 data\oritech\loot_table\blocks\machine_capacitor_addon.json
-975e26bef9760d52970dc05e8db664bd9637ec82 data\oritech\loot_table\blocks\tech_door.json
 8fcfa50bdd9632674cad17569b471f4581446282 data\oritech\loot_table\blocks\placer_block.json
+975e26bef9760d52970dc05e8db664bd9637ec82 data\oritech\loot_table\blocks\tech_door.json
 5f74fd4f187a59cb5660633b277f91a338062869 data\oritech\loot_table\blocks\fluid_pipe_connection.json
 2106473284d4e3ff5e1ba4af31687ac67ea15c5a data\oritech\loot_table\blocks\steel_block.json
 facfcb1ed7569efbea90fd565900e99796d27b58 data\oritech\loot_table\blocks\machine_core_1.json
