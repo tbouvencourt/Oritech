@@ -5,7 +5,6 @@ import io.wispforest.owo.registration.reflect.BlockRegistryContainer.NoBlockItem
 import net.minecraft.block.*;
 import net.minecraft.block.dispenser.BlockPlacementDispenserBehavior;
 import net.minecraft.block.piston.PistonBehavior;
-import net.minecraft.fluid.FlowableFluid;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
@@ -26,7 +25,6 @@ import rearth.oritech.block.blocks.machines.interaction.*;
 import rearth.oritech.block.blocks.machines.processing.*;
 import rearth.oritech.block.blocks.machines.storage.*;
 import rearth.oritech.block.blocks.pipes.*;
-import rearth.oritech.init.datagen.BlockLootGenerator;
 import rearth.oritech.item.other.SmallFluidTankBlockItem;
 import rearth.oritech.util.ArchitecturyBlockRegistryContainer;
 import rearth.oritech.util.item.OritechGeoItem;
@@ -36,8 +34,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.lang.reflect.Field;
+import java.util.HashSet;
+import java.util.Set;
 
 public class BlockContent implements ArchitecturyBlockRegistryContainer {
+    
+    public static Set<Block> autoRegisteredDrops = new HashSet<>();
     
     public static final Block SPAWNER_CAGE_BLOCK = new SpawnerCageBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
     
@@ -289,7 +291,7 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
         }
         
         if (!field.isAnnotationPresent(NoAutoDrop.class)) {
-            BlockLootGenerator.autoRegisteredDrops.add(value);
+            autoRegisteredDrops.add(value);
         }
 
         if (field.isAnnotationPresent(DispenserPlace.class)) {

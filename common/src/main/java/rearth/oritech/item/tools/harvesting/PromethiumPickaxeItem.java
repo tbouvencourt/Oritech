@@ -39,7 +39,7 @@ import rearth.oritech.Oritech;
 import rearth.oritech.client.renderers.PromethiumToolRenderer;
 import rearth.oritech.init.ComponentContent;
 import rearth.oritech.init.ToolsContent;
-import rearth.oritech.init.datagen.data.TagContent;
+import rearth.oritech.init.TagContent;
 import software.bernie.geckolib.animatable.GeoItem;
 import software.bernie.geckolib.animatable.SingletonGeoAnimatable;
 import software.bernie.geckolib.animatable.client.GeoRenderProvider;

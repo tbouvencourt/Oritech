@@ -1,4 +1,4 @@
-// 1.21.1	2024-11-15T10:18:01.4201879	Oritech/Block Loot Tables
+// 1.21.1	2024-11-15T19:21:53.9454662	Oritech/Block Loot Tables
 50131366bff246d5e5a9852ff2ac28781b70ba42 data\oritech\loot_table\blocks\deepslate_platinum_ore.json
 b0240bb2f2e72d6385b4e0df86dadd9241a3c84b data\oritech\loot_table\blocks\item_filter_block.json
 652c94ee12839692eb21558f351d5df78b53a7e9 data\oritech\loot_table\blocks\machine_plating_stairs.json
@@ -65,8 +65,8 @@ e4ae74ac028c31ac7506bdf861073eb89486b00c data\oritech\loot_table\blocks\pulveriz
 135b2a985db66d3459db88bf4081cbdb20d5b137 data\oritech\loot_table\blocks\metal_beam_block.json
 7983ef002aafa9c133c5c273d6b7187a09948154 data\oritech\loot_table\blocks\item_pipe.json
 f29d69e9d8ceb3a29d9aa87f984a77af9008a0d2 data\oritech\loot_table\blocks\deep_drill_block.json
-28e6a479c2afc36543b5932f43ef8f0deb90264e data\oritech\loot_table\blocks\quarry_addon.json
 a540618d087e9c88ca3a2d1b2224b1addef73348 data\oritech\loot_table\blocks\machine_frame_block.json
+28e6a479c2afc36543b5932f43ef8f0deb90264e data\oritech\loot_table\blocks\quarry_addon.json
 adc51213b920922c37831695f309893b6b2e8e85 data\oritech\loot_table\blocks\iron_plating_slab.json
 56dc0810a166d601ab9a3e383ccff057fb501673 data\oritech\loot_table\blocks\creative_tank_block.json
 4f69117f7333bc135d6a6d3348a6345f430ad20f data\oritech\loot_table\blocks\spawner_controller_block.json
