@@ -75,6 +75,10 @@ dependencies {
     // jade
     modImplementation "curse.maven:jade-324717:5846105"
 
+    // REI
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.754"
+    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.754"
+
     // EMI
     modRuntimeOnly "dev.emi:emi-neoforge:1.1.12+1.21"
 }

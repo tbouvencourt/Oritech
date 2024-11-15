@@ -56,8 +56,10 @@ dependencies {
         transitive = false
     }
 
+    // yes yes all this needs to be cleaned up, and recipe viewers made conditional, but I'm waiting to clean up the CSL mess first
+
     // owo lib
-    modImplementation "io.wispforest:owo-lib:0.12.15+1.21"
+    modImplementation "io.wispforest:owo-lib:0.12.11+1.21"
 
     // geckolib
     modImplementation "software.bernie.geckolib:geckolib-fabric-1.21.1:4.6.6"
@@ -81,7 +83,8 @@ dependencies {
     // EMI
     modRuntimeOnly "dev.emi:emi-fabric:1.1.12+1.21"
 
-    modRuntimeOnly "org.sinytra:item-asset-export-fabric:1.0.2+1.21"
+    // REI
+    // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
 
 }
 
