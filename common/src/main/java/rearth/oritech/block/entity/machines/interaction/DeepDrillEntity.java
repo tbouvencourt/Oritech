@@ -78,20 +78,23 @@ public class DeepDrillEntity extends BlockEntity implements BlockEntityTicker<De
         super(BlockEntitiesContent.DEEP_DRILL_ENTITY, pos, state);
     }
     
-    public boolean init() {
-        
-        var startAt = pos.south().down();
-        var checkState = world.getBlockState(startAt);
+    public boolean init(boolean manual) {
         
         initialized = true;
         targetedOre.clear();
-        loadOreBlocks();
+        loadOreBlocks(manual);
 
         return !targetedOre.isEmpty();
     }
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, DeepDrillEntity blockEntity) {
+        if (world.isClient) return;
+        
+        if (isActive(state) && !initialized && (world.getTime() + pos.asLong()) % 60 == 0) {
+            init(false);
+        }
+        
         if (world.isClient() || !initialized || targetedOre.isEmpty()) return;
         if (!inventory.isEmpty() && inventory.heldStacks.get(0).getCount() >= inventory.heldStacks.get(0).getMaxCount())
             return;    // inv full
@@ -130,7 +133,7 @@ public class DeepDrillEntity extends BlockEntity implements BlockEntityTicker<De
         return pos.add(Geometry.rotatePosition(new Vec3i(1, y, 0), facing));
     }
     
-    private void loadOreBlocks() {
+    private void loadOreBlocks(boolean manual) {
         var center = getCenter(-1);
         
         for (int x = -1; x <= 1; x++) {
@@ -140,7 +143,7 @@ public class DeepDrillEntity extends BlockEntity implements BlockEntityTicker<De
                     var target = center.add(x, y, z);
                     var targetState = world.getBlockState(target);
                     if (targetState.isIn(TagContent.RESOURCE_NODES)) {
-                        ParticleContent.DEBUG_BLOCK.spawn(world, Vec3d.of(target));
+                        if (manual) ParticleContent.DEBUG_BLOCK.spawn(world, Vec3d.of(target));
                         targetedOre.add(targetState.getBlock());
                         break;
                     } else if (!targetState.isAir()) break;
@@ -179,12 +182,6 @@ public class DeepDrillEntity extends BlockEntity implements BlockEntityTicker<De
         Inventories.writeNbt(nbt, inventory.heldStacks, false, registryLookup);
         addMultiblockToNbt(nbt);
         nbt.putLong("energy_stored", energyStorage.amount);
-        nbt.putBoolean("initialized", initialized);
-        if (initialized) {
-            for (int i = 0; i < targetedOre.size(); i++) {
-                nbt.putString("nodeType" + i, Registries.BLOCK.getId(targetedOre.get(i)).toString());
-            }
-        }
     }
     
     @Override
@@ -193,12 +190,6 @@ public class DeepDrillEntity extends BlockEntity implements BlockEntityTicker<De
         Inventories.readNbt(nbt, inventory.heldStacks, registryLookup);
         loadMultiblockNbtData(nbt);
         energyStorage.amount = nbt.getLong("energy_stored");
-        initialized = nbt.getBoolean("initialized");
-        if (initialized) {
-            for (int i = 0; i < targetedOre.size(); i++) {
-                targetedOre.add(Registries.BLOCK.get(Identifier.of(nbt.getString("nodeType" + i))));
-            }
-        }
     }
     
     @Override
