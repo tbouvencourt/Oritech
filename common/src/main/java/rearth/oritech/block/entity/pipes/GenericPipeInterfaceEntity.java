@@ -13,7 +13,9 @@ import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.PersistentState;
+import org.jetbrains.annotations.Nullable;
 import rearth.oritech.Oritech;
+import rearth.oritech.block.entity.machines.interaction.PipeBoosterBlockEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -24,8 +26,49 @@ public abstract class GenericPipeInterfaceEntity extends BlockEntity implements 
     
     public static final int MAX_SEARCH_COUNT = 2048;
     
+    public BlockPos connectedBooster = BlockPos.ORIGIN;
+    
+    private PipeBoosterBlockEntity cachedBooster;
+    
     public GenericPipeInterfaceEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
+    }
+    
+    public boolean isBoostAvailable() {
+        var booster = tryGetCachedBooster();
+        return booster != null && booster.canUseBoost();
+    }
+    
+    public void onBoostUsed() {
+        var booster = tryGetCachedBooster();
+        if (booster != null) booster.useBoost();
+    }
+    
+    @Nullable
+    private PipeBoosterBlockEntity tryGetCachedBooster() {
+        
+        // booster was removed
+        if (cachedBooster != null && cachedBooster.isRemoved()) {
+            cachedBooster = null;
+            connectedBooster = BlockPos.ORIGIN;
+            return null;
+        }
+        
+        if (connectedBooster == BlockPos.ORIGIN) {  // no booster set
+            if (cachedBooster != null) cachedBooster = null;
+            return null;
+        } else if (cachedBooster == null) { // booster freshly set
+            var candidate = Objects.requireNonNull(world).getBlockEntity(connectedBooster);
+            if (candidate instanceof PipeBoosterBlockEntity booster) {
+                cachedBooster = booster;
+                return cachedBooster;
+            } else {
+                connectedBooster = BlockPos.ORIGIN;
+                return null;
+            }
+        } else {    // no change
+            return cachedBooster;
+        }
     }
     
     public static void addNode(BlockPos pos, boolean isInterface, BlockState newState, PipeNetworkData data) {

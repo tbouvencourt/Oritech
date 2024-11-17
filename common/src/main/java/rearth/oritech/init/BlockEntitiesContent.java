@@ -137,6 +137,9 @@ public class BlockEntitiesContent implements ArchitecturyRegistryContainer<Block
     @AssignSidedInventory
     public static final BlockEntityType<TreefellerBlockEntity> TREEFELLER_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(TreefellerBlockEntity::new, BlockContent.TREEFELLER_BLOCK).build();
     
+    @AssignSidedEnergy
+    public static final BlockEntityType<PipeBoosterBlockEntity> PIPE_BOOSTER_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(PipeBoosterBlockEntity::new, BlockContent.PIPE_BOOSTER_BLOCK).build();
+    
     @AssignSidedInventory
     public static final BlockEntityType<EnchantmentCatalystBlockEntity> ENCHANTMENT_CATALYST_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(EnchantmentCatalystBlockEntity::new, BlockContent.ENCHANTMENT_CATALYST_BLOCK).build();
     

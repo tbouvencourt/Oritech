@@ -35,7 +35,11 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, GenericPipeInterfaceEntity blockEntity) {
-        if (world.isClient || world.getTime() % TRANSFER_PERIOD != 0 || !state.get(ItemPipeConnectionBlock.EXTRACT))
+        if (world.isClient || !state.get(ItemPipeConnectionBlock.EXTRACT))
+            return;
+        
+        // boosted pipe works every tick, otherwise only every N tick
+        if (world.getTime() % TRANSFER_PERIOD != 0 && !isBoostAvailable())
             return;
         
         // find first itemstack from connected invs (that can be extracted)
@@ -46,6 +50,7 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
         var sources = data.machineInterfaces.getOrDefault(pos, new HashSet<>());
         var stackToMove = ItemStack.EMPTY;
         Storage<ItemVariant> moveFromInventory = null;
+        var moveCapacity = isBoostAvailable() ? 64 : TRANSFER_AMOUNT;
         
         try (var mainTx = Transaction.openOuter()) {
             for (var sourcePos : sources) {
@@ -54,7 +59,7 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
                 var inventory = findFromCache(world, sourcePos, direction);
                 if (inventory == null || !inventory.supportsExtraction()) continue;
                 
-                var firstStack = getFromStorage(inventory, TRANSFER_AMOUNT, mainTx);
+                var firstStack = getFromStorage(inventory, moveCapacity, mainTx);
                 
                 if (!firstStack.isEmpty()) {
                     stackToMove = firstStack;
@@ -114,6 +119,8 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
             }
             
         }
+        
+        if (moved > 0 && moveCapacity > TRANSFER_AMOUNT) onBoostUsed();
         
     }
     

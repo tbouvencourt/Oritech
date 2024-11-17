@@ -140,6 +140,8 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     public static final Block FERTILIZER_BLOCK = new FertilizerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
     @UseGeoBlockItem(scale = 0.7f)
     public static final Block TREEFELLER_BLOCK = new TreefellerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
+    @UseGeoBlockItem(scale = 0.7f)
+    public static final Block PIPE_BOOSTER_BLOCK = new PipeBoosterBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
     
     @UseGeoBlockItem(scale = 0.7f)
     public static final Block ENCHANTMENT_CATALYST_BLOCK = new EnchantmentCatalystBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
