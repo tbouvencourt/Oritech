@@ -224,7 +224,8 @@ public class AcceleratorControllerBlockEntity extends BlockEntity implements Blo
             if (candidateState.isAir() || candidateState.isReplaceable() || candidateState.getBlock().getHardness() < 0)
                 continue;
             
-            world.setBlockState(candidate, Blocks.END_STONE.getDefaultState());
+            if (!world.getBlockState(candidate.down()).getBlock().equals(Blocks.CHORUS_PLANT))
+                world.setBlockState(candidate, Blocks.END_STONE.getDefaultState());
             
             // generate chorus flowers
             if (world.random.nextFloat() > 0.8) {

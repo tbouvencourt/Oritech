@@ -76,6 +76,9 @@ dependencies {
     // REI
     // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
 
+    // mod menu
+    modImplementation "com.terraformersmc:modmenu:11.0.3"
+
 }
 
 remapJar {
