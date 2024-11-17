@@ -28,6 +28,12 @@ configurations {
     }
 }
 
+repositories {
+    flatDir {
+        dir './libs'
+    }
+}
+
 dependencies {
     modImplementation "net.fabricmc:fabric-loader:$rootProject.fabric_loader_version"
 
@@ -57,10 +63,14 @@ dependencies {
     // CSL
     // include modApi("earth.terrarium.common_storage_lib:common-storage-lib-fabric-1.21:0.0.5")
     // yeah this is super weird, I have no idea why I have to list the subprojects, and why the include doesn't work here, or why the 0.0.6 jar doesnt work
-    modApi files('common-storage-lib-fabric-1.21-0.0.8.jar')
-    modApi files('common-storage-lib-data-fabric-1.21-0.0.9.jar')
-    modApi files('common-storage-lib-resources-fabric-1.21-0.0.8.jar')
-    modApi files('common-storage-lib-lookup-fabric-1.21-0.0.8.jar')
+    include modApi('earth.terrarium.common_storage_lib:common-storage-lib-fabric-1.21:0.0.23')
+    include modApi('earth.terrarium.common_storage_lib:common-storage-lib-data-fabric-1.21:0.0.23')
+    include modApi('earth.terrarium.common_storage_lib:common-storage-lib-lookup-fabric-1.21:0.0.23')
+    include modApi('earth.terrarium.common_storage_lib:common-storage-lib-resources-fabric-1.21:0.0.23')
+//    modApi files('common-storage-lib-fabric-1.21-0.0.8.jar')
+//    modApi files('common-storage-lib-data-fabric-1.21-0.0.9.jar')
+//    modApi files('common-storage-lib-resources-fabric-1.21-0.0.8.jar')
+//    modApi files('common-storage-lib-lookup-fabric-1.21-0.0.8.jar')
 
     // include(files('common-storage-lib-fabric-1.21-0.0.8.jar'))
 
@@ -79,10 +89,6 @@ dependencies {
     // mod menu
     modImplementation "com.terraformersmc:modmenu:11.0.3"
 
-}
-
-remapJar {
-    nestedJars.from(file('common-storage-lib-fabric-1.21-0.0.6.jar'))
 }
 
 processResources {
