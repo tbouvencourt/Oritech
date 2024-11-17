@@ -1,6 +1,8 @@
 package rearth.oritech.init;
 
 import dev.architectury.registry.registries.RegistrySupplier;
+import earth.terrarium.common_storage_lib.energy.EnergyApi;
+import earth.terrarium.common_storage_lib.energy.EnergyProvider;
 import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.fabricmc.fabric.api.transfer.v1.item.ItemStorage;
@@ -229,9 +231,8 @@ public class BlockEntitiesContent implements ArchitecturyRegistryContainer<Block
     @Override
     public void postProcessField(String namespace, BlockEntityType<?> value, String identifier, Field field, RegistrySupplier<BlockEntityType<?>> supplier) {
         
-        // TODO do I need this?
-//        if (field.isAnnotationPresent(AssignSidedEnergy.class))
-//            EnergyStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> ((EnergyProvider) blockEntity).getStorage(direction), value);
+        if (field.isAnnotationPresent(AssignSidedEnergy.class))
+            EnergyApi.BLOCK.onRegister(registrar -> registrar.registerBlockEntities((blockEntity, direction) -> ((EnergyProvider.BlockEntity) blockEntity).getEnergy(direction), value));
         
         if (field.isAnnotationPresent(AssignSidedFluid.class))
             FluidStorage.SIDED.registerForBlockEntity((blockEntity, direction) -> ((FluidProvider) blockEntity).getFluidStorage(direction), value);
