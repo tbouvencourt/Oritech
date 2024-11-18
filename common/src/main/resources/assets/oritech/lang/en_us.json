@@ -512,6 +512,9 @@
   "item.oritech.jetpack_elytra": "Boosted Elytra",
   "item.oritech.jetpack_exo_elytra": "Boosted Exo Elytra",
   "item.oritech.oritech_guide": "Oritech Manual",
+  "fluid.oritech.still_fuel": "Turbofuel",
+  "fluid.oritech.still_oil": "Oil",
+  "fluid.oritech.still_steam": "Steam",
   "item.oritech.promethium_axe": [
     {
       "text": "Prometheum Battleaxe",
