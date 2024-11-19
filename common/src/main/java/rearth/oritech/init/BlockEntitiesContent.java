@@ -15,10 +15,7 @@ import rearth.oritech.block.entity.arcane.EnchantmentCatalystBlockEntity;
 import rearth.oritech.block.entity.arcane.SpawnerControllerBlockEntity;
 import rearth.oritech.block.entity.decorative.TechDoorBlockEntity;
 import rearth.oritech.block.entity.machines.MachineCoreEntity;
-import rearth.oritech.block.entity.machines.accelerator.AcceleratorControllerBlockEntity;
-import rearth.oritech.block.entity.machines.accelerator.AcceleratorMotorBlockEntity;
-import rearth.oritech.block.entity.machines.accelerator.AcceleratorSensorBlockEntity;
-import rearth.oritech.block.entity.machines.accelerator.BlackHoleBlockEntity;
+import rearth.oritech.block.entity.machines.accelerator.*;
 import rearth.oritech.block.entity.machines.addons.*;
 import rearth.oritech.block.entity.machines.generators.*;
 import rearth.oritech.block.entity.machines.interaction.*;
@@ -157,6 +154,8 @@ public class BlockEntitiesContent implements ArchitecturyRegistryContainer<Block
     @AssignSidedEnergy
     public static final BlockEntityType<AcceleratorMotorBlockEntity> ACCELERATOR_MOTOR_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(AcceleratorMotorBlockEntity::new, BlockContent.ACCELERATOR_MOTOR).build();
     public static final BlockEntityType<BlackHoleBlockEntity> BLACK_HOLE_ENTITY = FabricBlockEntityTypeBuilder.create(BlackHoleBlockEntity::new, BlockContent.BLACK_HOLE_BLOCK).build();
+    @AssignSidedEnergy
+    public static final BlockEntityType<ParticleCollectorBlockEntity> PARTICLE_COLLECTOR_BLOCK_ENTITY = FabricBlockEntityTypeBuilder.create(ParticleCollectorBlockEntity::new, BlockContent.PARTICLE_COLLECTOR_BLOCK).build();
     
     public static final BlockEntityType<InventoryProxyAddonBlockEntity> INVENTORY_PROXY_ADDON_ENTITY = FabricBlockEntityTypeBuilder.create(InventoryProxyAddonBlockEntity::new, BlockContent.MACHINE_INVENTORY_PROXY_ADDON).build();
     
