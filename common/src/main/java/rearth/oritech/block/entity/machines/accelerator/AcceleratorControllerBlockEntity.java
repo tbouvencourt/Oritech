@@ -180,7 +180,7 @@ public class AcceleratorControllerBlockEntity extends BlockEntity implements Blo
     
     private void createCollisionParticles(int collisionEnergy, Vec3d collisionPosition, int shotCount) {
         
-        var energyMultiplier = 3;
+        var energyMultiplier = 3 * Oritech.CONFIG.tachyonCollisionEnergyFactor();
         int energyPotential = (int) (Math.pow(collisionEnergy / 2f, 2) * energyMultiplier * Oritech.CONFIG.accelerationRFCost());    // exactly N times the amount of energy used to accelerate
         var energyPerRay = energyPotential / shotCount;
         var rayRange = shotCount / 3;

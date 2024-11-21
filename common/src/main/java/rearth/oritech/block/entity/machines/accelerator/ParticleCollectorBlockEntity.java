@@ -14,6 +14,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+import rearth.oritech.Oritech;
 import rearth.oritech.init.BlockEntitiesContent;
 import rearth.oritech.network.NetworkContent;
 import rearth.oritech.util.DynamicEnergyStorage;
@@ -29,10 +30,9 @@ import static rearth.oritech.block.base.entity.ExpandableEnergyStorageBlockEntit
 
 public class ParticleCollectorBlockEntity extends BlockEntity implements BlockEntityTicker<ParticleCollectorBlockEntity>, EnergyProvider.BlockEntity, GeoBlockEntity {
     
-    // TODO configs
-    // TODO recipes, translation, tooltip, wiki
+    // TODO recipes, wiki
     
-    protected final DynamicEnergyStorage energyStorage = new DynamicEnergyStorage(1_000_000, 0, 1_000_000, this::markDirty);
+    protected final DynamicEnergyStorage energyStorage = new DynamicEnergyStorage(Oritech.CONFIG.collectorEnergyStorage(), 0, Oritech.CONFIG.collectorEnergyStorage(), this::markDirty);
     protected final AnimatableInstanceCache animatableInstanceCache = GeckoLibUtil.createInstanceCache(this);
     
     public static final RawAnimation WORK = RawAnimation.begin().thenPlayAndHold("collect");
@@ -52,7 +52,7 @@ public class ParticleCollectorBlockEntity extends BlockEntity implements BlockEn
     }
     
     public void onParticleCollided() {
-        onParticleCollided(5000);
+        onParticleCollided(Oritech.CONFIG.blackHoleTachyonEnergy());
     }
     
     public void onParticleCollided(int amount) {
