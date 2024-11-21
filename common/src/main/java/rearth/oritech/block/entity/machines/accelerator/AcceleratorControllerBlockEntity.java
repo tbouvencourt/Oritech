@@ -205,7 +205,7 @@ public class AcceleratorControllerBlockEntity extends BlockEntity implements Blo
                 ParticleContent.BLACK_HOLE_EMISSION.spawn(world, collisionPosition, offset);
             }
             
-            System.out.println("caught: " + caughtParticles + " of " + shotCount);
+            // System.out.println("caught: " + caughtParticles + " of " + shotCount);
         }
     
     }
