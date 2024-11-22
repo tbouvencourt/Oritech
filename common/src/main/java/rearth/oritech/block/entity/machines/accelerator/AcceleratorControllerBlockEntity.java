@@ -172,7 +172,7 @@ public class AcceleratorControllerBlockEntity extends BlockEntity implements Blo
         this.removeParticleDueToCollision();
         secondControllerEntity.removeParticleDueToCollision();
         
-        var particleCount = Math.pow(relativeSpeed, 0.5) / 2f;
+        var particleCount = Math.pow(relativeSpeed, 0.5) / 2f + 1;
         createCollisionParticles((int) relativeSpeed, collision, (int) particleCount);
         
         ParticleContent.PARTICLE_COLLIDE.spawn(world, collision);
