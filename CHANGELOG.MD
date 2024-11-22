@@ -1,0 +1,7 @@
+- Add tachyon collectors
+- Add target cashing to energy pipes again
+- Improve enderic laser behaviour when all targets have been mined
+- Fix energy item enchantments being lost when used/charged
+- Fix generators not being disabled by the redstone addon
+- Fix fluid translations in machine UIs
+- Update CSL version to prevent crashes with betterEnd/betterNether/BCLib
