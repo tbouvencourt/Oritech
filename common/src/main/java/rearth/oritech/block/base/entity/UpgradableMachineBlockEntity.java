@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rearth.oritech.client.init.ModScreens;
 import rearth.oritech.client.ui.UpgradableMachineScreenHandler;
-import rearth.oritech.util.DynamicEnergyStorage;
+import rearth.oritech.util.energy.containers.DynamicEnergyStorage;
 import rearth.oritech.util.MachineAddonController;
 import rearth.oritech.util.ScreenProvider;
 
