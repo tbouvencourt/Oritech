@@ -194,4 +194,9 @@ public class BasicMachineScreenHandler extends ScreenHandler {
     public @NotNull BlockPos getBlockPos() {
         return blockPos;
     }
+    
+    public boolean showRedstoneAddon() {
+        return screenData.hasRedstoneControlAvailable();
+    }
+    
 }
