@@ -236,7 +236,7 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     
     // region decorative
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
-    public static final Block CEILING_LIGHT = new WallMountedLight(AbstractBlock.Settings.copy(Blocks.GLOWSTONE).nonOpaque(), 6);
+    public static final Block CEILING_LIGHT = new WallMountedLight(AbstractBlock.Settings.copy(Blocks.GLOWSTONE).nonOpaque(), 2);
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block CEILING_LIGHT_HANGING = new WallMountedLight(AbstractBlock.Settings.copy(Blocks.GLOWSTONE).nonOpaque(), 12);
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
