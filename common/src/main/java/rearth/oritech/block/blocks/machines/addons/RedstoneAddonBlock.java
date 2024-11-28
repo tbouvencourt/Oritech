@@ -63,10 +63,10 @@ public class RedstoneAddonBlock extends MachineAddonBlock {
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
         
-        // TODO
         var isPowered = world.isReceivingRedstonePower(pos);
+        var poweredState = state.with(Properties.POWERED, isPowered);
         
-        return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos).with(Properties.POWERED, isPowered);
+        return super.getStateForNeighborUpdate(poweredState, direction, neighborState, world, pos, neighborPos);
     }
     
     @Override

@@ -123,7 +123,7 @@ public abstract class UpgradableMachineBlockEntity extends MachineBlockEntity im
     @Override
     public int receivedRedstoneSignal() {
         if (disabledViaRedstone) return 15;
-        return world.getReceivedRedstonePower(pos);
+        return 0;
     }
     
     @Override
