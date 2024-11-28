@@ -279,7 +279,7 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block STEEL_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
-    public static final Block ENERGITE_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block ENERGITE_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).luminance(state -> 6));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block NICKEL_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
@@ -293,11 +293,11 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block DURATIUM_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.NETHERITE_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
-    public static final Block BIOMASS_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block BIOMASS_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.MOSS_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block PLASTIC_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.SHROOMLIGHT));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
-    public static final Block FLUXITE_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block FLUXITE_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).sounds(BlockSoundGroup.AMETHYST_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
     public static final Block SILICON_BLOCK = new SlimeBlock(AbstractBlock.Settings.copy(Blocks.SLIME_BLOCK));
     @ItemContent.ItemGroupTarget(ItemContent.Groups.decorative)
