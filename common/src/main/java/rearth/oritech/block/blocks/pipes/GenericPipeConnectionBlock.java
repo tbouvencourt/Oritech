@@ -7,12 +7,12 @@ import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Nullable;
 import rearth.oritech.Oritech;
 import rearth.oritech.block.entity.pipes.GenericPipeInterfaceEntity;
@@ -22,36 +22,11 @@ public abstract class GenericPipeConnectionBlock extends GenericPipeBlock implem
     public GenericPipeConnectionBlock(Settings settings) {
         super(settings);
     }
-    
-    public static BlockState addInterfaceState(BlockState state, World world, BlockPos pos) {
-        
-        var baseState = GenericPipeBlock.addConnectionState(state, world, pos);
-        var lookup = ((GenericPipeBlock) state.getBlock()).apiValidationFunction();
-        
-        var northConnected = checkConnection(pos.north(), world, Direction.SOUTH, lookup) ? 2 : baseState.get(NORTH);
-        var eastConnected = checkConnection(pos.east(), world, Direction.WEST, lookup) ? 2 : baseState.get(EAST);
-        var southConnected = checkConnection(pos.south(), world, Direction.NORTH, lookup) ? 2 : baseState.get(SOUTH);
-        var westConnected = checkConnection(pos.west(), world, Direction.EAST, lookup) ? 2 : baseState.get(WEST);
-        var upConnected = checkConnection(pos.up(), world, Direction.DOWN, lookup) ? 2 : baseState.get(UP);
-        var downConnected = checkConnection(pos.down(), world, Direction.UP, lookup) ? 2 : baseState.get(DOWN);
-        
-        return baseState
-                 .with(NORTH, northConnected)
-                 .with(EAST, eastConnected)
-                 .with(SOUTH, southConnected)
-                 .with(WEST, westConnected)
-                 .with(UP, upConnected)
-                 .with(DOWN, downConnected);
-    }
-    
-    private static boolean checkConnection(BlockPos pos, World world, Direction direction, TriFunction<World, BlockPos, Direction, Boolean> lookup) {
-        return lookup.apply(world, pos, direction) && !(world.getBlockState(pos).getBlock() instanceof GenericPipeBlock);
-    }
-    
+
     @Override
     public void onBlockAdded(BlockState state, World world, BlockPos pos, BlockState oldState, boolean notify) {
         if (oldState.getBlock().equals(state.getBlock())) return;
-        GenericPipeInterfaceEntity.addNode(pos, true, state, getNetworkData(world));
+        GenericPipeInterfaceEntity.addNode(world, pos, true, state, getNetworkData(world));
         
         var regKey = world.getRegistryKey().getValue();
         var dataId = getPipeTypeName() + "_" + regKey.getNamespace() + "_" + regKey.getPath();
@@ -61,33 +36,68 @@ public abstract class GenericPipeConnectionBlock extends GenericPipeBlock implem
     
     @Override
     protected void onBlockRemoved(BlockPos pos, BlockState oldState, World world) {
-        GenericPipeInterfaceEntity.removeNode(pos, true, oldState, getNetworkData(world));
+        updateNeighbors(world, pos, false);
+        GenericPipeInterfaceEntity.removeNode(world, pos, true, oldState, getNetworkData(world));
     }
     
     @Override
     public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        var baseState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-        var interfaceState = addInterfaceState(baseState, (World) world, pos);
-        
-        if (interfaceState.get(NORTH) != 2
-              && interfaceState.get(SOUTH) != 2
-              && interfaceState.get(WEST) != 2
-              && interfaceState.get(EAST) != 2
-              && interfaceState.get(UP) != 2
-              && interfaceState.get(DOWN) != 2) {
-            var normalPipeState = getNormalBlock();
-            normalPipeState = GenericPipeBlock.addConnectionState(normalPipeState, (World) world, pos);
-            return normalPipeState;
+        var worldImp = (World) world;
+        if (worldImp.isClient) return state;
+
+        if (!hasNeighboringMachine(state, worldImp, pos, false)) {
+            var normalState = getNormalBlock();
+            return ((GenericPipeBlock) normalState.getBlock()).addConnectionStates(normalState, worldImp, pos, false);
         }
-        
-        if (!interfaceState.equals(state)) {
-            // reload connection when state has changed (e.g. machine added/removed)
-            GenericPipeInterfaceEntity.addNode(pos, true, interfaceState, getNetworkData((World) world));
+
+        var interfaceState = state;
+        if (!(neighborState.getBlock() instanceof GenericPipeBlock)) {
+            interfaceState = addConnectionStates(state, worldImp, pos, direction);
+
+            if (!interfaceState.equals(state)) {
+                // reload connection when state has changed (e.g. machine added/removed)
+                GenericPipeInterfaceEntity.addNode(worldImp, pos, true, interfaceState, getNetworkData(worldImp));
+            }
         }
-        
+
         return interfaceState;
     }
-    
+
+    @Override
+    protected boolean toggleSideConnection(BlockState state, Direction side, World world, BlockPos pos) {
+        var property = directionToProperty(side);
+        var createConnection = state.get(property) == NO_CONNECTION;
+
+        // check if connection would be valid if state is toggled
+        var targetPos = pos.offset(side);
+        if (createConnection && !isValidConnectionTarget(world.getBlockState(targetPos).getBlock(), world, side.getOpposite(), targetPos))
+            return false;
+
+        // toggle connection state
+        int nextConnectionState = getNextConnectionState(state, side, world, pos, state.get(property));
+        var newState = addStraightState(state.with(property, nextConnectionState));
+
+        // transform to interface block if side is being enabled and machine is connected
+        if (!hasNeighboringMachine(newState, world, pos, false)) {
+            var normalBlock = (GenericPipeBlock) getNormalBlock().getBlock();
+            var interfaceState = normalBlock.addConnectionStates(normalBlock.getDefaultState(), world, pos, false);
+            interfaceState = interfaceState.with(normalBlock.directionToProperty(side), newState.get(property)); // Hacky way to copy connection state
+            world.setBlockState(pos, normalBlock.addStraightState(interfaceState));
+        } else {
+            world.setBlockState(pos, newState);
+            GenericPipeInterfaceEntity.addNode(world, pos, true, newState, getNetworkData(world));
+
+            // update neighbor if it's a pipe
+            updateNeighbors(world, pos, true);
+        }
+
+        // play sound
+        var soundGroup = getSoundGroup(state);
+        world.playSound(null, pos, soundGroup.getPlaceSound(), SoundCategory.BLOCKS, soundGroup.getVolume() * .5f, soundGroup.getPitch());
+
+        return true;
+    }
+
     @SuppressWarnings("rawtypes")
     @Nullable
     @Override

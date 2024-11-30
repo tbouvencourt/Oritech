@@ -1,40 +1,37 @@
-package rearth.oritech.block.blocks.pipes;
+package rearth.oritech.block.blocks.pipes.fluid;
 
 import net.fabricmc.fabric.api.transfer.v1.fluid.FluidStorage;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.state.StateManager;
-import net.minecraft.state.property.BooleanProperty;
-import net.minecraft.util.Identifier;
+import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.minecraft.world.WorldAccess;
 import org.apache.commons.lang3.function.TriFunction;
+import org.jetbrains.annotations.Nullable;
+import rearth.oritech.block.blocks.pipes.ExtractablePipeConnectionBlock;
+import rearth.oritech.block.entity.pipes.FluidPipeInterfaceEntity;
 import rearth.oritech.block.entity.pipes.GenericPipeInterfaceEntity;
 import rearth.oritech.init.BlockContent;
 
-import java.util.HashMap;
+import static rearth.oritech.block.blocks.pipes.fluid.FluidPipeBlock.FLUID_PIPE_DATA;
 
-public class FluidPipeBlock extends GenericPipeBlock {
+public class FluidPipeConnectionBlock extends ExtractablePipeConnectionBlock {
     
-    public static HashMap<Identifier, GenericPipeInterfaceEntity.PipeNetworkData> FLUID_PIPE_DATA = new HashMap<>();
-    public static final BooleanProperty EXTRACT = FluidPipeConnectionBlock.EXTRACT;
-    
-    public FluidPipeBlock(Settings settings) {
+    public FluidPipeConnectionBlock(Settings settings) {
         super(settings);
-        this.setDefaultState(this.getDefaultState().with(EXTRACT, false));
-    }
-
-    @Override
-    protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-        super.appendProperties(builder);
-        builder.add(EXTRACT);
     }
     
     @Override
     public TriFunction<World, BlockPos, Direction, Boolean> apiValidationFunction() {
         return ((world, pos, direction) -> FluidStorage.SIDED.find(world, pos, direction) != null);
+    }
+    
+    @Nullable
+    @Override
+    public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
+        return new FluidPipeInterfaceEntity(pos, state);
     }
     
     @Override
@@ -51,20 +48,13 @@ public class FluidPipeBlock extends GenericPipeBlock {
     public String getPipeTypeName() {
         return "fluid";
     }
-    
-    // to connect when a neighboring block emits a block update (e.g. the centrifuge getting a fluid addon)
+
+    // to disconnect when a neighboring block emits a block update (e.g. the centrifuge losing a fluid addon)
     @Override
     protected void neighborUpdate(BlockState state, World world, BlockPos pos, Block sourceBlock, BlockPos sourcePos, boolean notify) {
         super.neighborUpdate(state, world, pos, sourceBlock, sourcePos, notify);
-        
-        world.setBlockState(pos, getStateForNeighborUpdate(state, null, null, world, pos, sourcePos), Block.NOTIFY_LISTENERS, 0);
-    }
 
-    @Override
-    public BlockState getStateForNeighborUpdate(BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos) {
-        var baseState = super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
-
-        return baseState.with(EXTRACT, state.get(EXTRACT));
+        world.setBlockState(pos, getStateForNeighborUpdate(state, Direction.getFacing(Vec3d.of(sourcePos.subtract(pos))), world.getBlockState(sourcePos), world, pos, sourcePos), Block.NOTIFY_LISTENERS, 0);
     }
     
     @Override

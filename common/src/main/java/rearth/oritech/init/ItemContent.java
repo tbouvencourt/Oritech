@@ -2,6 +2,7 @@ package rearth.oritech.init;
 
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.block.ComposterBlock;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.FoodComponents;
 import net.minecraft.entity.EntityType;
 import net.minecraft.item.Item;
@@ -12,6 +13,7 @@ import rearth.oritech.item.other.CustomTooltipItem;
 import rearth.oritech.item.other.MobCaptureItem;
 import rearth.oritech.item.tools.LaserTargetDesignator;
 import rearth.oritech.item.tools.WeedKiller;
+import rearth.oritech.item.tools.Wrench;
 import rearth.oritech.util.ArchitecturyRegistryContainer;
 
 import java.lang.annotation.ElementType;
@@ -34,7 +36,9 @@ public class ItemContent implements ArchitecturyRegistryContainer<Item> {
     public static final Item TARGET_DESIGNATOR = new LaserTargetDesignator(new Item.Settings().maxCount(1));
     @ItemGroupTarget(Groups.equipment)
     public static final Item WEED_KILLER = new WeedKiller(new Item.Settings().maxCount(1));
-    
+    @ItemGroupTarget(Groups.equipment)
+    public static final Item WRENCH = new Wrench(new Item.Settings().maxDamage(150).maxCount(1).component(DataComponentTypes.TOOL, Wrench.createToolComponent()));
+
     // region metals
     // nickel
     public static final Item NICKEL_INGOT = new Item(new Item.Settings());

@@ -1,4 +1,4 @@
-package rearth.oritech.block.blocks.pipes;
+package rearth.oritech.block.blocks.pipes.energy;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -8,12 +8,13 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.function.TriFunction;
 import org.jetbrains.annotations.Nullable;
+import rearth.oritech.block.blocks.pipes.GenericPipeConnectionBlock;
 import rearth.oritech.block.entity.pipes.EnergyPipeInterfaceEntity;
 import rearth.oritech.block.entity.pipes.GenericPipeInterfaceEntity;
 import rearth.oritech.init.BlockContent;
 import rearth.oritech.util.energy.EnergyApi;
 
-import static rearth.oritech.block.blocks.pipes.SuperConductorBlock.SUPERCONDUCTOR_DATA;
+import static rearth.oritech.block.blocks.pipes.energy.SuperConductorBlock.SUPERCONDUCTOR_DATA;
 
 public class SuperConductorConnectionBlock extends GenericPipeConnectionBlock {
     

@@ -30,7 +30,7 @@ public final class Oritech {
     public static final String MOD_ID = "oritech";
     public static final Logger LOGGER = LoggerFactory.getLogger("oritech");
     public static final OritechConfig CONFIG = OritechConfig.createAndLoad();
-    
+
     public static final Multimap<Identifier, Runnable> EVENT_MAP = initEventMap();
     
     public static Identifier id(String path) {
@@ -43,7 +43,7 @@ public final class Oritech {
         NetworkContent.registerChannels();
         ParticleContent.registerParticles();
         FeatureContent.initialize();
-        
+
         // for pipe data
         ServerLifecycleEvents.SERVER_STARTED.register(Oritech::onServerStarted);
         

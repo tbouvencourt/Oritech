@@ -14,33 +14,34 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 import rearth.oritech.Oritech;
-import rearth.oritech.block.blocks.pipes.ItemPipeBlock;
-import rearth.oritech.block.blocks.pipes.ItemPipeConnectionBlock;
+import rearth.oritech.block.blocks.pipes.ExtractablePipeConnectionBlock;
+import rearth.oritech.block.blocks.pipes.item.ItemPipeBlock;
+import rearth.oritech.block.blocks.pipes.item.ItemPipeConnectionBlock;
 import rearth.oritech.init.BlockEntitiesContent;
 
 import java.util.*;
 
-public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
+public class ItemPipeInterfaceEntity extends ExtractablePipeInterfaceEntity {
     
     private static final int TRANSFER_AMOUNT = Oritech.CONFIG.itemPipeTransferAmount();
     private static final int TRANSFER_PERIOD = Oritech.CONFIG.itemPipeIntervalDuration();
     
     private final HashMap<BlockPos, BlockApiCache<Storage<ItemVariant>, Direction>> lookupCache = new HashMap<>();
     private List<Pair<Storage<ItemVariant>, BlockPos>> filteredTargetItemStorages;
-    private int filteredTargetsNetHash;
-    
+
     public ItemPipeInterfaceEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesContent.ITEM_PIPE_ENTITY, pos, state);
     }
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, GenericPipeInterfaceEntity blockEntity) {
-        if (world.isClient || !state.get(ItemPipeConnectionBlock.EXTRACT))
+        var block = (ExtractablePipeConnectionBlock) state.getBlock();
+        if (world.isClient || !block.isExtractable(state))
             return;
-        
-        // boosted pipe works every tick, otherwise only every N tick
-        if (world.getTime() % TRANSFER_PERIOD != 0 && !isBoostAvailable())
-            return;
+
+		// boosted pipe works every tick, otherwise only every N tick
+		if (world.getTime() % TRANSFER_PERIOD != 0 && !isBoostAvailable())
+			return;
         
         // find first itemstack from connected invs (that can be extracted)
         // try to move it to one of the destinations
@@ -51,11 +52,12 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
         var stackToMove = ItemStack.EMPTY;
         Storage<ItemVariant> moveFromInventory = null;
         var moveCapacity = isBoostAvailable() ? 64 : TRANSFER_AMOUNT;
-        
+
         try (var mainTx = Transaction.openOuter()) {
             for (var sourcePos : sources) {
                 var offset = pos.subtract(sourcePos);
                 var direction = Direction.fromVector(offset.getX(), offset.getY(), offset.getZ());
+                if (!block.isSideExtractable(state, direction.getOpposite())) continue;
                 var inventory = findFromCache(world, sourcePos, direction);
                 if (inventory == null || !inventory.supportsExtraction()) continue;
                 
@@ -82,15 +84,16 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
         if (netHash != filteredTargetsNetHash) {
             filteredTargetItemStorages = targets.stream()
                                            .filter(target -> {
-                                               var pipePos = target.getLeft().add(target.getRight().getVector());
+                                               var direction = target.getRight();
+                                               var pipePos = target.getLeft().add(direction.getVector());
                                                var pipeState = world.getBlockState(pipePos);
-                                               if (!(pipeState.getBlock() instanceof ItemPipeConnectionBlock))
+                                               if (!(pipeState.getBlock() instanceof ItemPipeConnectionBlock itemBlock))
                                                    return true;   // edge case, this should never happen
-                                               var extracting = pipeState.get(ItemPipeConnectionBlock.EXTRACT);
+                                               var extracting = itemBlock.isSideExtractable(pipeState, direction.getOpposite());
                                                return !extracting;
                                            })
                                            .map(target -> new Pair<>(findFromCache(world, target.getLeft(), target.getRight()), target.getLeft()))
-                                           .filter(obj -> Objects.nonNull(obj.getLeft()) && obj.getLeft().supportsInsertion() && obj.getRight().getManhattanDistance(pos) > 1)
+                    .filter(obj -> Objects.nonNull(obj.getLeft()) && obj.getLeft().supportsInsertion()) //&& obj.getRight().getManhattanDistance(pos) > 1)
                                            .sorted(Comparator.comparingInt(a -> a.getRight().getManhattanDistance(pos)))
                                            .toList();
             
@@ -121,7 +124,7 @@ public class ItemPipeInterfaceEntity extends GenericPipeInterfaceEntity {
         }
         
         if (moved > 0 && moveCapacity > TRANSFER_AMOUNT) onBoostUsed();
-        
+
     }
     
     @Override
