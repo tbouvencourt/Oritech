@@ -22,7 +22,9 @@ import rearth.oritech.block.blocks.arcane.*;
 import rearth.oritech.block.blocks.decorative.*;
 import rearth.oritech.block.blocks.generators.*;
 import rearth.oritech.block.blocks.interaction.*;
-import rearth.oritech.block.blocks.pipes.*;
+import rearth.oritech.block.blocks.pipes.energy.*;
+import rearth.oritech.block.blocks.pipes.fluid.*;
+import rearth.oritech.block.blocks.pipes.item.*;
 import rearth.oritech.block.blocks.processing.*;
 import rearth.oritech.block.blocks.reactor.*;
 import rearth.oritech.block.blocks.storage.*;
@@ -187,14 +189,22 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     public static final Block STEAM_BOILER_ADDON = new SteamBoilerAddonBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque(), AddonSettings.getDefaultSettings().withBoundingShape(MachineAddonBlock.STEAM_BOILER_ADDON_SHAPE));
     public static final Block MACHINE_REDSTONE_ADDON = new RedstoneAddonBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque(), AddonSettings.getDefaultSettings().withBoundingShape(MachineAddonBlock.MACHINE_REDSTONE_ADDON_SHAPE));
     
-    //region reactor
+    //region reactor    (disabled for 0.11.4 release)
+    @NoBlockItem
     public static final Block REACTOR_CONTROLLER = new ReactorControllerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_WALL = new ReactorWallBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_DOUBLE_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_QUAD_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_VENT = new ReactorHeatVentBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_REFLECTOR = new ReactorReflectorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    @NoBlockItem
     public static final Block REACTOR_HEAT_PIPE = new ReactorHeatPipeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
     
     // cooling cell, early game re-fillable component
