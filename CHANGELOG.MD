@@ -1,4 +1,5 @@
-The pipe update! Huge thanks to aderoian/Armen who did the majority of the work here.
+The pipe update! Huge thanks to aderoian/Armen who did the majority of the work here. With this change and stability of the new energy API in the last update,
+both the fabric and neoforge version are now available as beta versions instead of alpha.
 Full changelog:
 - Improved pipes (@aderoian):
   - Pipes can now be set to extract in specific directions only, allowing insertion and extraction in 1 block space
@@ -13,3 +14,6 @@ Full changelog:
 - Change resource block translations (instead of 'X block' it's now 'Block of X')
 - Fix redstone addon not working on enderic lasers
 - Fix texture size of the tachyon collector (@Plompi)
+
+Warning: Due to the pipe rework, their blockstate have been changed. This is a **breaking** change. All existing item and fluid pipes
+will be set to connect at every single connection, and energy pipes need to be fully replaced/updated. Sadly things like this are hard to avoid during alpha/beta stages.
