@@ -71,7 +71,7 @@ The following translations are available:
 - Spanish (by Seyronh)
 - Turkish (by RuyaSavascisi)
 - French (by kikipunk)
-- Polish (by plhappylemonpl)
+- Polish (by plhappylemonpl & Przemol)
 
 ## Built With
 
