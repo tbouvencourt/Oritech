@@ -15,7 +15,7 @@ import net.minecraft.util.math.Direction;
 import net.minecraft.world.PersistentState;
 import org.jetbrains.annotations.Nullable;
 import rearth.oritech.Oritech;
-import rearth.oritech.block.entity.machines.interaction.PipeBoosterBlockEntity;
+import rearth.oritech.block.entity.interaction.PipeBoosterBlockEntity;
 
 import java.util.*;
 import java.util.stream.Collectors;

@@ -13,7 +13,7 @@ import rearth.oritech.block.blocks.pipes.EnergyPipeBlock;
 import rearth.oritech.block.blocks.pipes.FluidPipeBlock;
 import rearth.oritech.block.blocks.pipes.ItemPipeBlock;
 import rearth.oritech.block.blocks.pipes.SuperConductorBlock;
-import rearth.oritech.block.entity.machines.accelerator.AcceleratorParticleLogic;
+import rearth.oritech.block.entity.accelerator.AcceleratorParticleLogic;
 import rearth.oritech.block.entity.pipes.GenericPipeInterfaceEntity;
 import rearth.oritech.client.init.ModScreens;
 import rearth.oritech.client.init.ParticleContent;
