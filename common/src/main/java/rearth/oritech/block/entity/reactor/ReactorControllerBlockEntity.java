@@ -33,6 +33,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     private final HashMap<Vector2i, BaseReactorBlock> activeComponents = new HashMap<>();
     private final HashMap<Vector2i, Integer> componentHeats = new HashMap<>();
+    private final HashMap<Vector2i, ComponentStatistics> componentStats = new HashMap<>(); // mainly for client displays
     
     public boolean active = false;
     private int reactorHeat;   // the heat of the entire casing
@@ -43,6 +44,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     // client only
     public NetworkContent.ReactorUIDataPacket uiData;
+    public NetworkContent.ReactorUISyncPacket uiSyncData;
     
     public ReactorControllerBlockEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesContent.REACTOR_CONTROLLER_BLOCK_ENTITY, pos, state);
@@ -55,7 +57,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, ReactorControllerBlockEntity blockEntity) {
-        if (world.isClient) return;
+        if (world.isClient || activeComponents.isEmpty()) return;
         
         for (var localPos : activeComponents.keySet()) {
             var component = activeComponents.get(localPos);
@@ -80,14 +82,19 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 energyStorage.insertIgnoringLimit(5 * receivedPulses * reactorStackHeight, false);
                 
                 // generate heat per pulse
-                componentHeat += (receivedPulses / 2 * receivedPulses + 4);
+                var heatCreated = (receivedPulses / 2 * receivedPulses + 4);
+                componentHeat += heatCreated;
                 
                 // move a base amount of heat to the reactor hull
                 var moved = ownRodCount * 4;
                 componentHeat -= moved;
                 reactorHeat += moved * reactorStackHeight;
                 
+                componentStats.put(localPos, new ComponentStatistics((short) receivedPulses, componentHeat, (short) heatCreated, (short) (moved)));
+                
             } else if (component instanceof ReactorHeatPipeBlock heatPipeBlock) {
+                
+                var sumGainedHeat = 0;
                 
                 // take heat in from neighbors
                 for (var neighbor : getNeighborsInBounds(localPos, activeComponents.keySet())) {
@@ -98,6 +105,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                     neighborHeat -= gainedHeat;
                     componentHeats.put(neighbor, neighborHeat);
                     componentHeat += gainedHeat;
+                    sumGainedHeat += gainedHeat;
                 }
                 
                 // move heat to reactor
@@ -105,15 +113,21 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 reactorHeat += moveAmount * reactorStackHeight;
                 componentHeat -= moveAmount;
                 
+                componentStats.put(localPos, new ComponentStatistics((short) 0, componentHeat, (short) sumGainedHeat, (short) (moveAmount)));
+                
             } else if (component instanceof ReactorHeatVentBlock ventBlock) {
                 
-                var moved = (reactorHeat - 6) * reactorStackHeight;
-                reactorHeat = Math.max(moved, 0);
+                var newHeat = (reactorHeat - 6 * reactorStackHeight);
+                reactorHeat = Math.max(newHeat, 0);
+                
+                componentStats.put(localPos, new ComponentStatistics((short) 0, componentHeat, (short) 6, (short) 0));
                 
             }
             
             componentHeats.put(localPos, componentHeat);
         }
+        
+        sendUINetworkData();
         
     }
     
@@ -264,6 +278,17 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
         return energyStorage;
     }
     
+    private void sendUINetworkData() {
+        
+        if (activeComponents.isEmpty()) return;
+        
+        var positionsFlat = activeComponents.keySet();
+        var positions = positionsFlat.stream().map(pos -> areaMin.add(pos.x + 1, 1, pos.y + 1)).toList();
+        var heats = positionsFlat.stream().map(pos -> componentStats.getOrDefault(pos, ComponentStatistics.EMPTY)).toList();
+        
+        NetworkContent.MACHINE_CHANNEL.serverHandle(this).send(new NetworkContent.ReactorUISyncPacket(pos, positions, heats));
+    }
+    
     @Override
     public Object getScreenOpeningData(ServerPlayerEntity player) {
         var previewMax = new BlockPos(areaMax.getX(), areaMin.getY() + 1, areaMax.getZ());
@@ -280,5 +305,9 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     @Override
     public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
         return new ReactorScreenHandler(syncId, playerInventory, this);
+    }
+    
+    public record ComponentStatistics(short receivedPulses, int storedHeat, short heatChanged, short heatToReactor) {
+        public static final ComponentStatistics EMPTY = new ComponentStatistics((short) 0, -1, (short) 0, (short) 0);
     }
 }

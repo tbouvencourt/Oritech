@@ -14,26 +14,26 @@ import rearth.oritech.block.base.entity.FrameInteractionBlockEntity;
 import rearth.oritech.block.base.entity.ItemEnergyFrameInteractionBlockEntity;
 import rearth.oritech.block.base.entity.MachineBlockEntity;
 import rearth.oritech.block.base.entity.UpgradableGeneratorBlockEntity;
-import rearth.oritech.block.entity.arcane.EnchanterBlockEntity;
-import rearth.oritech.block.entity.arcane.EnchantmentCatalystBlockEntity;
-import rearth.oritech.block.entity.arcane.SpawnerControllerBlockEntity;
 import rearth.oritech.block.entity.accelerator.AcceleratorControllerBlockEntity;
 import rearth.oritech.block.entity.accelerator.BlackHoleBlockEntity;
 import rearth.oritech.block.entity.accelerator.ParticleCollectorBlockEntity;
 import rearth.oritech.block.entity.addons.InventoryProxyAddonBlockEntity;
 import rearth.oritech.block.entity.addons.RedstoneAddonBlockEntity;
+import rearth.oritech.block.entity.arcane.EnchanterBlockEntity;
+import rearth.oritech.block.entity.arcane.EnchantmentCatalystBlockEntity;
+import rearth.oritech.block.entity.arcane.SpawnerControllerBlockEntity;
 import rearth.oritech.block.entity.generators.SteamEngineEntity;
 import rearth.oritech.block.entity.interaction.*;
-import rearth.oritech.block.entity.processing.CentrifugeBlockEntity;
 import rearth.oritech.block.entity.pipes.ItemFilterBlockEntity;
+import rearth.oritech.block.entity.processing.CentrifugeBlockEntity;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
 import rearth.oritech.init.ComponentContent;
 import rearth.oritech.init.recipes.OritechRecipe;
 import rearth.oritech.init.recipes.OritechRecipeType;
 import rearth.oritech.item.tools.armor.BaseJetpackItem;
 import rearth.oritech.util.*;
-import rearth.oritech.util.energy.containers.DynamicEnergyStorage;
 import rearth.oritech.util.energy.EnergyApi;
+import rearth.oritech.util.energy.containers.DynamicEnergyStorage;
 
 import java.util.List;
 import java.util.Map;
@@ -140,6 +140,9 @@ public class NetworkContent {
     public record ReactorUIDataPacket(BlockPos position, BlockPos min, BlockPos max, BlockPos previewMax) {
     }
     
+    public record ReactorUISyncPacket(BlockPos position, List<BlockPos> componentPositions, List<ReactorControllerBlockEntity.ComponentStatistics> componentHeats) {
+    }
+    
     @SuppressWarnings("unchecked")
     public static void registerChannels() {
         
@@ -147,6 +150,7 @@ public class NetworkContent {
         
         MACHINE_CHANNEL.builder().register(ItemFilterBlockEntity.FILTER_ITEMS_ENDEC, (Class<Map<Integer, ItemStack>>) (Object) Map.class); // I don't even know what kind of abomination this cast is, but it seems to work
         MACHINE_CHANNEL.builder().register(OritechRecipeType.ORI_RECIPE_ENDEC, OritechRecipe.class);
+        
         
         MACHINE_CHANNEL.registerClientbound(MachineSyncPacket.class, ((message, access) -> {
             
@@ -475,6 +479,16 @@ public class NetworkContent {
             
             if (entity instanceof ReactorControllerBlockEntity reactor) {
                 reactor.uiData = message;
+            }
+            
+        }));
+        
+        MACHINE_CHANNEL.registerClientbound(ReactorUISyncPacket.class, ((message, access) -> {
+            
+            var entity = access.player().getWorld().getBlockEntity(message.position);
+            
+            if (entity instanceof ReactorControllerBlockEntity reactor) {
+                reactor.uiSyncData = message;
             }
             
         }));
