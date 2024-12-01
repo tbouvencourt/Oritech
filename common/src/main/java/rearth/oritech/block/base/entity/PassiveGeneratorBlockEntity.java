@@ -17,7 +17,7 @@ import java.util.Set;
 
 public abstract class PassiveGeneratorBlockEntity extends BlockEntity implements EnergyApi.BlockProvider, BlockEntityTicker<PassiveGeneratorBlockEntity> {
     
-    protected final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(200_000, 0, 5_000, this::markDirty);
+    protected final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(0, 5_000, 200_000, this::markDirty);
     
     public PassiveGeneratorBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -39,7 +39,6 @@ public abstract class PassiveGeneratorBlockEntity extends BlockEntity implements
     private void outputEnergy() {
         if (energyStorage.getAmount() <= 0) return;
         
-        // todo caching for targets? Used to be BlockApiCache.create()
         for (var target : getOutputTargets(pos, world)) {
             var candidate = EnergyApi.BLOCK.find(world, target.getLeft(), target.getRight());
             if (candidate != null)

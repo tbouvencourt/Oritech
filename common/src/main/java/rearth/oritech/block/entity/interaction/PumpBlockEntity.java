@@ -70,7 +70,7 @@ public class PumpBlockEntity extends BlockEntity implements BlockEntityTicker<Pu
         }
     };
     
-    private final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(20000, 1000, 0);
+    private final SimpleEnergyStorage energyStorage = new SimpleEnergyStorage(1000, 0, 20_000);
     private boolean initialized = false;
     private boolean toolheadLowered = false;
     private boolean searchActive = false;
