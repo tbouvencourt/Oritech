@@ -1,5 +1,6 @@
 package rearth.oritech.block.blocks.reactor;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -42,9 +43,15 @@ public class ReactorControllerBlock extends BaseReactorBlock implements BlockEnt
     @Override
     public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
         
-        if (!world.isClient && world.getBlockEntity(pos) instanceof ReactorControllerBlockEntity reactorController)
+        if (!world.isClient && world.getBlockEntity(pos) instanceof ReactorControllerBlockEntity reactorController) {
             reactorController.init(player);
+            
+            if (reactorController.active) {
+                var handler = (ExtendedScreenHandlerFactory) world.getBlockEntity(pos);
+                player.openHandledScreen(handler);
+            }
+        }
         
-        return super.onUse(state, world, pos, player, hit);
+        return ActionResult.SUCCESS;
     }
 }

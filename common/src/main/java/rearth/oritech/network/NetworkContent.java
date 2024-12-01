@@ -26,6 +26,7 @@ import rearth.oritech.block.entity.generators.SteamEngineEntity;
 import rearth.oritech.block.entity.interaction.*;
 import rearth.oritech.block.entity.processing.CentrifugeBlockEntity;
 import rearth.oritech.block.entity.pipes.ItemFilterBlockEntity;
+import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
 import rearth.oritech.init.ComponentContent;
 import rearth.oritech.init.recipes.OritechRecipe;
 import rearth.oritech.init.recipes.OritechRecipeType;
@@ -134,6 +135,9 @@ public class NetworkContent {
     public record JetpackUsageUpdatePacket(long energyStored, String fluidType, long fluidAmount) {}
     
     public record InventorySyncPacket(BlockPos position, List<ItemStack> heldStacks) {
+    }
+    
+    public record ReactorUIDataPacket(BlockPos position, BlockPos min, BlockPos max, BlockPos previewMax) {
     }
     
     @SuppressWarnings("unchecked")
@@ -461,6 +465,16 @@ public class NetworkContent {
             
             if (entity instanceof EnchanterBlockEntity enchanter) {
                 enchanter.handleEnchantmentSelection(message);
+            }
+            
+        }));
+        
+        MACHINE_CHANNEL.registerClientbound(ReactorUIDataPacket.class, ((message, access) -> {
+            
+            var entity = access.player().getWorld().getBlockEntity(message.position);
+            
+            if (entity instanceof ReactorControllerBlockEntity reactor) {
+                reactor.uiData = message;
             }
             
         }));

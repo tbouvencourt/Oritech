@@ -22,34 +22,48 @@ public class BlockPreviewComponent extends BaseComponent {
     private final @Nullable BlockEntity entity;
     private final Vec3i offset;
     private final float mouseRotationSpeed;
+    private final float blockSizing;
     
     private float mouseRotation;
     
-    public BlockPreviewComponent(BlockState state, @Nullable BlockEntity entity, Vec3i offset) {
-        this(state, entity, offset, 0);
+    public BlockPreviewComponent(BlockState state, @Nullable BlockEntity entity, Vec3i offset, float blockSizing) {
+        this(state, entity, offset, 0, blockSizing);
     }
     
-    public BlockPreviewComponent(BlockState state, @Nullable BlockEntity entity, Vec3i offset, float mouseRotationSpeed) {
+    public BlockPreviewComponent(BlockState state, @Nullable BlockEntity entity, Vec3i offset, float mouseRotationSpeed, float blockSizing) {
         this.state = state;
         this.entity = entity;
         this.offset = offset;
         this.mouseRotationSpeed = mouseRotationSpeed;
+        this.blockSizing = blockSizing;
+    }
+    
+    @Override
+    public boolean shouldDrawTooltip(double mouseX, double mouseY) {
+        if (!super.shouldDrawTooltip(mouseX, mouseY)) return false;
+        
+        var offsetX = mouseX - this.x;
+        var offsetY = mouseY - this.y;
+        
+        System.out.println(offsetX + " " + offsetY + " | " + x + " " + offset.getX() + " " + blockSizing);
+        // no idea how to properly do this
+        
+        return true;
     }
     
     @Override
     public void draw(OwoUIDrawContext context, int mouseX, int mouseY, float partialTicks, float delta) {
         context.getMatrices().push();
         
-        context.getMatrices().translate(x + this.width / 2f, y + this.height / 2f, 100);
-        context.getMatrices().scale(40 * this.width / 64f, -40 * this.height / 64f, 40);
+        context.getMatrices().translate(x + this.blockSizing / 2f, y + this.blockSizing / 2f, 2000);
+        context.getMatrices().scale(40 * this.blockSizing / 64f, -40 * this.blockSizing / 64f, 40);
         
-        context.getMatrices().multiply(RotationAxis.POSITIVE_X.rotationDegrees(30));
+        context.getMatrices().multiply(RotationAxis.POSITIVE_X.rotationDegrees(35));
         context.getMatrices().multiply(RotationAxis.POSITIVE_Y.rotationDegrees(45 + 180 + mouseRotation));
         
         mouseRotation += mouseRotationSpeed;
         
         context.getMatrices().translate(-.5 + offset.getX(), -.5 + offset.getY(), -.5 + offset.getZ());
-        
         RenderSystem.runAsFancy(() -> {
             final var vertexConsumers = client.getBufferBuilders().getEntityVertexConsumers();
             if (this.state.getRenderType() != BlockRenderType.ENTITYBLOCK_ANIMATED) {
