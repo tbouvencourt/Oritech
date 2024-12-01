@@ -1,3 +1,0 @@
-- Fix pump not accepting energy
-- Fix solar panel not outputting energy
-- Refresh translations from crowdin
