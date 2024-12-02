@@ -32,6 +32,7 @@ public class OritechRecipeCategory implements IRecipeCategory<OritechRecipe> {
     public final IDrawableAnimated arrow;
     public final IDrawableStatic background;
     
+    // JEI really feels like the worst of the 3 recipe viewers here
     public OritechRecipeCategory(OritechRecipeType type, Class<? extends MachineBlockEntity> screenProviderSource, Block machine, IGuiHelper helper) {
         this.type = type;
         this.icon = helper.createDrawableItemStack(new ItemStack(machine.asItem()));
