@@ -29,6 +29,9 @@
     ],
     "jade": [
       "rearth.oritech.init.compat.jade.OritechJadePlugin"
+    ],
+    "jei_mod_plugin": [
+      "rearth.oritech.init.compat.jei.OritechJeiPlugin"
     ]
   },
   "mixins": [

@@ -71,7 +71,10 @@ dependencies {
     // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.754"
 
     // EMI
-    modRuntimeOnly "dev.emi:emi-neoforge:1.1.12+1.21"
+    // modRuntimeOnly "dev.emi:emi-neoforge:1.1.12+1.21"
+
+    // JEI
+    modRuntimeOnly "mezz.jei:jei-1.21.1-neoforge:19.21.0.245"
 
     // compat mods for ingame testing
     modRuntimeOnly "curse.maven:energized-power-782147:5797585"

@@ -29,6 +29,9 @@ dependencies {
     // REI
     modCompileOnly "me.shedaniel:RoughlyEnoughItems-api:16.0.754"
 
+    // JEI
+    modCompileOnly "mezz.jei:jei-${minecraft_version}-common-api-intermediary:19.21.0.246"
+
     // JADE (needed for addon)
     modImplementation "curse.maven:jade-324717:5639994"
 }

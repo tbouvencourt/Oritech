@@ -73,6 +73,9 @@ dependencies {
     // REI
     // modRuntimeOnly "me.shedaniel:RoughlyEnoughItems-fabric:16.0.754"
 
+    // JEI
+    // modRuntimeOnly "mezz.jei:jei-1.21.1-fabric:19.21.0.245"
+
     // mod menu
     modImplementation "com.terraformersmc:modmenu:11.0.3"
 

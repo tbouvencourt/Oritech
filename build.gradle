@@ -47,12 +47,6 @@ subprojects {
             name = 'GeckoLib'
             url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
         }
-
-        maven { // for athena/CSL
-            name = 'teamresourceful'
-            url "https://maven.teamresourceful.com/repository/maven-public/"
-        }
-
         maven {
             name = 'REI'
             url "https://maven.shedaniel.me/"
@@ -68,10 +62,21 @@ subprojects {
             url "https://beta.cursemaven.com"
         }
 
-        maven {
+        maven { // FFAPI
             name = "Sinytra"
             url "https://maven.su5ed.dev/releases"
         }
+
+        maven { // JEI
+            name = "Jared's maven"
+            url = "https://maven.blamejared.com/"
+        }
+
+        maven { // for athena/CSL
+            name = 'teamresourceful'
+            url "https://maven.teamresourceful.com/repository/maven-public/"
+        }
+
     }
 
     dependencies {
