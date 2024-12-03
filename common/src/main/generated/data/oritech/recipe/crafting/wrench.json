@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "a": {
-      "item": "oritech:nickel_ingot"
+      "tag": "c:ingots/nickel"
     },
     "b": {
-      "item": "oritech:steel_ingot"
+      "tag": "c:ingots/nickel"
     }
   },
   "pattern": [

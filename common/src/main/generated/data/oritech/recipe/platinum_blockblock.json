@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "oritech:platinum_ingot"
+      "tag": "c:ingots/platinum"
     }
   },
   "pattern": [

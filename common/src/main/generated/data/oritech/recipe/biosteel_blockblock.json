@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "oritech:biosteel_ingot"
+      "tag": "c:ingots/biosteel"
     }
   },
   "pattern": [

@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "oritech:fluxite_block"
+      "tag": "c:storage_blocks/fluxite"
     }
   ],
   "result": {

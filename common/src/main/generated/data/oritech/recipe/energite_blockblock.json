@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "oritech:energite_ingot"
+      "tag": "c:ingots/energite"
     }
   },
   "pattern": [

@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "oritech:platinum_block"
+      "tag": "c:storage_blocks/platinum"
     }
   ],
   "result": {

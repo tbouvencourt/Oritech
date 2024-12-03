@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "oritech:steel_ingot"
+      "tag": "c:ingots/steel"
     }
   },
   "pattern": [
