@@ -73,7 +73,7 @@ public class ToolsContent implements ArchitecturyRegistryContainer<Item> {
         
         ItemGroups.add(targetGroup, value);
         
-        if (value instanceof OritechEnergyItem energyItem) {
+        if (EnergyApi.ITEM != null && value instanceof OritechEnergyItem energyItem) {
             var variantStack = new ItemStack(value);
             variantStack.set(EnergyApi.ITEM.getEnergyComponent(), energyItem.getEnergyCapacity(variantStack));
             ItemGroups.add(targetGroup, variantStack);
