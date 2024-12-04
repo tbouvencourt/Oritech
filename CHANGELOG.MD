@@ -1,0 +1,7 @@
+- Add JEI integration for recipes
+- Add tags for storage blocks, storage_blocks/MATERIAL, ingot/MATERIAL, dust/MATERIAL, gems, gems/MATERIAL
+- Add missing images to online docs
+- Add extra tooltip to fuel generator item regarding energy output positions
+- Add missing tag translations (only used in EMI I think)
+- Fix item wrench recipe not using item tags
+- Fix all dye recipes resulting in white dye
