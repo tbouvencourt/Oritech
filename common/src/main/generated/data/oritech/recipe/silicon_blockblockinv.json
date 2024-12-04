@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "oritech:silicon_block"
+      "tag": "c:storage_blocks/silicon"
     }
   ],
   "result": {

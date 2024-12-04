@@ -232,7 +232,7 @@ public class BlockEntitiesContent implements ArchitecturyRegistryContainer<Block
     @Override
     public void postProcessField(String namespace, BlockEntityType<?> value, String identifier, Field field, RegistrySupplier<BlockEntityType<?>> supplier) {
         
-        if (field.isAnnotationPresent(AssignSidedEnergy.class))
+        if (EnergyApi.BLOCK != null && field.isAnnotationPresent(AssignSidedEnergy.class))
             EnergyApi.BLOCK.registerBlockEntity(() -> value);
         
         if (field.isAnnotationPresent(AssignSidedFluid.class))

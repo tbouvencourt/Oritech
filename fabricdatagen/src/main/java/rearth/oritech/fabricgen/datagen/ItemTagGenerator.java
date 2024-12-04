@@ -3,9 +3,14 @@ package rearth.oritech.fabricgen.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.fabricmc.fabric.api.tag.convention.v2.ConventionalItemTags;
+import net.fabricmc.fabric.api.tag.convention.v2.TagUtil;
+import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import rearth.oritech.init.BlockContent;
 import rearth.oritech.init.ItemContent;
 import rearth.oritech.init.TagContent;
@@ -38,6 +43,16 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
           .add(ItemContent.ENERGITE_DUST)
           .add(ItemContent.STEEL_DUST);
         
+        getOrCreateTagBuilder(getDustTag("nickel")).add(ItemContent.NICKEL_DUST);
+        getOrCreateTagBuilder(getDustTag("platinum")).add(ItemContent.PLATINUM_DUST);
+        getOrCreateTagBuilder(getDustTag("biosteel")).add(ItemContent.BIOSTEEL_DUST);
+        getOrCreateTagBuilder(getDustTag("duratium")).add(ItemContent.DURATIUM_DUST);
+        getOrCreateTagBuilder(getDustTag("electrum")).add(ItemContent.ELECTRUM_DUST);
+        getOrCreateTagBuilder(getDustTag("adamant")).add(ItemContent.ADAMANT_DUST);
+        getOrCreateTagBuilder(getDustTag("energite")).add(ItemContent.ENERGITE_DUST);
+        getOrCreateTagBuilder(getDustTag("steel")).add(ItemContent.STEEL_DUST);
+        
+        
         // ingots
         getOrCreateTagBuilder(ConventionalItemTags.INGOTS)
           .add(ItemContent.NICKEL_INGOT)
@@ -49,6 +64,24 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
           .add(ItemContent.ADAMANT_INGOT)
           .add(ItemContent.ENERGITE_INGOT)
           .add(ItemContent.STEEL_INGOT);
+        
+        getOrCreateTagBuilder(getIngotTag("nickel")).add(ItemContent.NICKEL_INGOT);
+        getOrCreateTagBuilder(getIngotTag("platinum")).add(ItemContent.PLATINUM_INGOT);
+        getOrCreateTagBuilder(getIngotTag("biosteel")).add(ItemContent.BIOSTEEL_INGOT);
+        getOrCreateTagBuilder(getIngotTag("prometheum")).add(ItemContent.PROMETHEUM_INGOT);
+        getOrCreateTagBuilder(getIngotTag("duratium")).add(ItemContent.DURATIUM_INGOT);
+        getOrCreateTagBuilder(getIngotTag("electrum")).add(ItemContent.ELECTRUM_INGOT);
+        getOrCreateTagBuilder(getIngotTag("adamant")).add(ItemContent.ADAMANT_INGOT);
+        getOrCreateTagBuilder(getIngotTag("energite")).add(ItemContent.ENERGITE_INGOT);
+        getOrCreateTagBuilder(getIngotTag("steel")).add(ItemContent.STEEL_INGOT);
+        
+        
+        // gems
+        getOrCreateTagBuilder(ConventionalItemTags.GEMS)
+          .add(ItemContent.FLUXITE);
+        
+        getOrCreateTagBuilder(TagKey.of(RegistryKeys.ITEM, Identifier.of(TagUtil.C_TAG_NAMESPACE, "gems/fluxite")))
+          .add(ItemContent.FLUXITE);
         
         getOrCreateTagBuilder(TagContent.NICKEL_ORES).add(BlockContent.NICKEL_ORE.asItem(), BlockContent.DEEPSLATE_NICKEL_ORE.asItem());
         getOrCreateTagBuilder(TagContent.PLATINUM_ORES).add(BlockContent.DEEPSLATE_PLATINUM_ORE.asItem(), BlockContent.ENDSTONE_PLATINUM_ORE.asItem());
@@ -199,5 +232,80 @@ public class ItemTagGenerator extends FabricTagProvider.ItemTagProvider {
         getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE)
                 .add(ItemContent.WRENCH);
         
+        // storage blocks
+        getOrCreateTagBuilder(ConventionalItemTags.STORAGE_BLOCKS)
+          .add(BlockContent.STEEL_BLOCK.asItem())
+          .add(BlockContent.ENERGITE_BLOCK.asItem())
+          .add(BlockContent.NICKEL_BLOCK.asItem())
+          .add(BlockContent.BIOSTEEL_BLOCK.asItem())
+          .add(BlockContent.PLATINUM_BLOCK.asItem())
+          .add(BlockContent.ADAMANT_BLOCK.asItem())
+          .add(BlockContent.ELECTRUM_BLOCK.asItem())
+          .add(BlockContent.DURATIUM_BLOCK.asItem())
+          .add(BlockContent.BIOMASS_BLOCK.asItem())
+          .add(BlockContent.PLASTIC_BLOCK.asItem())
+          .add(BlockContent.FLUXITE_BLOCK.asItem())
+          .add(BlockContent.SILICON_BLOCK.asItem())
+          .add(BlockContent.RAW_NICKEL_BLOCK.asItem())
+          .add(BlockContent.RAW_PLATINUM_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("steel"))
+          .add(BlockContent.STEEL_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("steel"))
+          .add(BlockContent.STEEL_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("energite"))
+          .add(BlockContent.ENERGITE_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("nickel"))
+          .add(BlockContent.NICKEL_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("biosteel"))
+          .add(BlockContent.BIOSTEEL_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("platinum"))
+          .add(BlockContent.PLATINUM_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("adamant"))
+          .add(BlockContent.ADAMANT_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("electrum"))
+          .add(BlockContent.ELECTRUM_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("duratium"))
+          .add(BlockContent.DURATIUM_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("biomass"))
+          .add(BlockContent.BIOMASS_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("plastic"))
+          .add(BlockContent.PLASTIC_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("fluxite"))
+          .add(BlockContent.FLUXITE_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("silicon"))
+          .add(BlockContent.SILICON_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("raw_nickel"))
+          .add(BlockContent.RAW_NICKEL_BLOCK.asItem());
+        
+        getOrCreateTagBuilder(getStorageBlockTag("raw_platinum"))
+          .add(BlockContent.RAW_PLATINUM_BLOCK.asItem());
+        
+        
+    }
+    
+    public static TagKey<Item> getStorageBlockTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of(TagUtil.C_TAG_NAMESPACE, "storage_blocks/" + path));
+    }
+    
+    public static TagKey<Item> getIngotTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of(TagUtil.C_TAG_NAMESPACE, "ingots/" + path));
+    }
+    
+    public static TagKey<Item> getDustTag(String path) {
+        return TagKey.of(RegistryKeys.ITEM, Identifier.of(TagUtil.C_TAG_NAMESPACE, "dusts/" + path));
     }
 }

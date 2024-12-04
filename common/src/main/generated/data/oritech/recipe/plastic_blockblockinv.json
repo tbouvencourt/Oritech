@@ -3,7 +3,7 @@
   "category": "misc",
   "ingredients": [
     {
-      "item": "oritech:plastic_block"
+      "tag": "c:storage_blocks/plastic"
     }
   ],
   "result": {

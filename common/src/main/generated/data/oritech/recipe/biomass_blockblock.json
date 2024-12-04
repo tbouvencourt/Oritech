@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "item": "oritech:biomass"
+      "tag": "c:ingots/biomass"
     }
   },
   "pattern": [
