@@ -66,6 +66,8 @@ dependencies {
     // jade
     modImplementation "curse.maven:jade-324717:5846105"
 
+    modCompileOnly "me.shedaniel:RoughlyEnoughItems-neoforge:16.0.754"
+
     // recipe viewer runtime
     switch (recipe_viewer.toLowerCase(Locale.ROOT)) {
         case "emi": modRuntimeOnly "dev.emi:emi-neoforge:${emi_version}"; break
