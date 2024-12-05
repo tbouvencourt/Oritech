@@ -4,5 +4,7 @@
 - Add extra tooltip to fuel generator item regarding energy output positions
 - Add missing tag translations (only used in EMI I think)
 - Add new unholy intelligence texture
+- Add german translations (@Wolkensteinchen)
+- Update translations from crowdin
 - Fix item wrench recipe not using item tags
 - Fix all dye recipes resulting in white dye

@@ -776,7 +776,7 @@
   "text.config.oritech-config.section.blackHole": "Schwarzes Loch",
   "text.config.oritech-config.option.pullTimeMultiplier": "Anziehungszeit des schwarzen Loch, multiplikator",
   "text.config.oritech-config.option.pullRange": "Anziehungsdistanz des schwarzen Lochs",
-  "text.config.oritech-config.option.idleWaitTicks": "Schwarzes Loch Wartezeit in Ticks"
+  "text.config.oritech-config.option.idleWaitTicks": "Schwarzes Loch Wartezeit in Ticks",
   "text.config.oritech-config.option.endPortalRequiredSpeed": "Minimum End Portal Collision Energy",
   "text.config.oritech-config.option.netherPortalRequiredSpeed": "Minimum Nether Portal Collision Energy",
   "text.config.oritech-config.option.blackHoleRequiredSpeed": "Minimum Black Hole Collision Energy",
