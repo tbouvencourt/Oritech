@@ -1,17 +1,19 @@
 package rearth.oritech.init.compat.emi;
 
 import dev.emi.emi.api.recipe.EmiRecipe;
+import dev.emi.emi.api.recipe.handler.EmiCraftContext;
 import dev.emi.emi.api.recipe.handler.StandardRecipeHandler;
+import dev.emi.emi.registry.EmiRecipeFiller;
 import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.Identifier;
 import rearth.oritech.block.base.entity.MachineBlockEntity;
-import rearth.oritech.client.ui.UpgradableMachineScreenHandler;
+import rearth.oritech.client.ui.BasicMachineScreenHandler;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class EmiTransferHandler implements StandardRecipeHandler<UpgradableMachineScreenHandler> {
+public class EmiTransferHandler<S extends BasicMachineScreenHandler> implements StandardRecipeHandler<S> {
     
     private final Identifier categoryId;
     
@@ -20,12 +22,12 @@ public class EmiTransferHandler implements StandardRecipeHandler<UpgradableMachi
     }
     
     @Override
-    public List<Slot> getInputSources(UpgradableMachineScreenHandler handler) {
+    public List<Slot> getInputSources(S handler) {
         return handler.slots;
     }
     
     @Override
-    public List<Slot> getCraftingSlots(UpgradableMachineScreenHandler handler) {
+    public List<Slot> getCraftingSlots(S handler) {
         
         if (!(handler.blockEntity instanceof MachineBlockEntity machine)) return List.of();
         
@@ -46,5 +48,25 @@ public class EmiTransferHandler implements StandardRecipeHandler<UpgradableMachi
         
         var id = oriRecipe.getCategory().getId();
         return id.equals(categoryId);
+    }
+    
+    @Override
+    public boolean craft(EmiRecipe recipe, EmiCraftContext<S> context) {
+        
+        var stacks = EmiRecipeFiller.getStacks(this, recipe, context.getScreen(), context.getAmount());
+        if (stacks != null) {
+            return EmiRecipeFiller.clientFill(this, recipe, context.getScreen(), stacks, context.getDestination());
+        }
+        return false;
+    }
+    
+    @Override
+    public boolean canCraft(EmiRecipe recipe, EmiCraftContext<S> context) {
+        
+        var handler = context.getScreenHandler();
+        if (getCraftingSlots(handler).stream().anyMatch(slot -> slot.hasStack() && !slot.getStack().isEmpty())) // check if a non-empty slot is present
+            return false;
+        
+        return StandardRecipeHandler.super.canCraft(recipe, context);
     }
 }

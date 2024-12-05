@@ -47,9 +47,9 @@ public class OritechEMIPlugin implements EmiPlugin {
         
         registry.addWorkstation(VanillaEmiRecipeCategories.SMELTING, EmiStack.of(BlockContent.POWERED_FURNACE_BLOCK));
         
-        registry.addRecipeHandler(ModScreens.ASSEMBLER_SCREEN, new EmiTransferHandler(RecipeContent.ASSEMBLER.getIdentifier()));
-        registry.addRecipeHandler(ModScreens.FOUNDRY_SCREEN, new EmiTransferHandler(RecipeContent.FOUNDRY.getIdentifier()));
-        // registry.addRecipeHandler(ModScreens.ATOMIC_FORGE_SCREEN, new EmiTransferHandler<>(RecipeContent.ATOMIC_FORGE.getIdentifier()));
+        registry.addRecipeHandler(ModScreens.ASSEMBLER_SCREEN, new EmiTransferHandler<>(RecipeContent.ASSEMBLER.getIdentifier()));
+        registry.addRecipeHandler(ModScreens.FOUNDRY_SCREEN, new EmiTransferHandler<>(RecipeContent.FOUNDRY.getIdentifier()));
+        registry.addRecipeHandler(ModScreens.ATOMIC_FORGE_SCREEN, new EmiTransferHandler<>(RecipeContent.ATOMIC_FORGE.getIdentifier()));
         
     }
     

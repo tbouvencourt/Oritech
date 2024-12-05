@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class ItemFilterBlockEntity extends BlockEntity implements InventoryProvider, ExtendedScreenHandlerFactory, BlockEntityTicker<ItemFilterBlockEntity> {
     
-    protected final FilterBlockInventory inventory = new FilterBlockInventory(1);
+    public final FilterBlockInventory inventory = new FilterBlockInventory(1);
     
     protected FilterData filterSettings = new FilterData(false, true, new HashMap<>());
     protected BlockApiCache<Storage<ItemVariant>, Direction> lookupCache;
@@ -160,7 +160,7 @@ public class ItemFilterBlockEntity extends BlockEntity implements InventoryProvi
     public record FilterData(boolean useNbt, boolean useWhitelist, Map<Integer, ItemStack> items) {
     }
     
-    protected class FilterBlockInventory extends SimpleInventory implements SidedInventory {
+    public class FilterBlockInventory extends SimpleInventory implements SidedInventory {
         
         public FilterBlockInventory(int size) {
             super(size);

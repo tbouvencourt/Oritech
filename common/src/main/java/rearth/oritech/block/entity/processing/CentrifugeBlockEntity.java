@@ -199,6 +199,7 @@ public class CentrifugeBlockEntity extends MultiblockMachineEntity implements Fl
     public void initAddons() {
         super.initAddons();
         world.updateNeighbors(pos, getCachedState().getBlock()); // trigger block update to allow pipes to connect
+        world.updateNeighbors(pos.up(), world.getBlockState(pos.up()).getBlock()); // trigger block update to allow pipes to connect
     }
     
     @Override
