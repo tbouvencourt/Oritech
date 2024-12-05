@@ -32,9 +32,12 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     public static final int MAX_SIZE = 64;
     
-    private final HashMap<Vector2i, BaseReactorBlock> activeComponents = new HashMap<>();
-    private final HashMap<Vector2i, Integer> componentHeats = new HashMap<>();
-    private final HashMap<Vector2i, ComponentStatistics> componentStats = new HashMap<>(); // mainly for client displays
+    private final HashMap<Vector2i, BaseReactorBlock> activeComponents = new HashMap<>();   // 2d local position on the first layer containing the reactor blocks
+    private final HashMap<Vector2i, ReactorFuelPortEntity> fuelPorts = new HashMap<>();     // same grid, but contains a reference to the port at the ceiling
+    private final HashMap<Vector2i, ReactorAbsorberPortEntity> absorberPorts = new HashMap<>(); // same
+    private final HashMap<Vector2i, Integer> componentHeats = new HashMap<>();              // same grid, contains the current heat of the component
+    private final HashMap<Vector2i, ComponentStatistics> componentStats = new HashMap<>(); // mainly for client displays, same grid
+    private final HashSet<ReactorEnergyPortEntity> energyPorts = new HashSet<>();   // list of all energy ports on the reactor wall
     
     public boolean active = false;
     private int reactorHeat;   // the heat of the entire casing
@@ -173,6 +176,9 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
         var finalCornerA = cornerA;
         var finalCornerB = cornerB;
         
+        // these get loaded in the next step
+        energyPorts.clear();
+        
         // verify edges
         var wallsValid = BlockPos.stream(cornerA, cornerB).allMatch(pos -> {
             if (isAtEdgeOfBox(pos, finalCornerA, finalCornerB)) {
@@ -180,6 +186,9 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 return block instanceof ReactorWallBlock;
             } else if (isOnWall(pos, finalCornerA, finalCornerB)) {
                 var block = world.getBlockState(pos).getBlock();
+                
+                // load wall energy ports
+                
                 return !(block instanceof BaseReactorBlock reactorBlock) || reactorBlock.validForWalls();
             }
             
@@ -196,10 +205,15 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
         var cornerAFlat = cornerA.add(1, 1, 1);
         var cornerBFlat = new BlockPos(cornerB.getX() - 1, cornerA.getY() + 1, cornerB.getZ() - 1);
         
-        activeComponents.clear();
+        // these get loaded in the next step
+        fuelPorts.clear();
+        absorberPorts.clear();
         reactorStackHeight = interiorHeight;
         
         var interiorStackedRight = BlockPos.stream(cornerAFlat, cornerBFlat).allMatch(pos -> {
+            
+            var offset = pos.subtract(cornerAFlat);
+            var localPos = new Vector2i(offset.getX(), offset.getZ());
             
             var block = world.getBlockState(pos).getBlock();
             if (!(block instanceof BaseReactorBlock reactorBlock)) return true;
@@ -214,12 +228,17 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
             var requiredCeiling = reactorBlock.requiredStackCeiling();
             if (requiredCeiling != Blocks.AIR) {
                 var ceilingPos = pos.add(0, interiorHeight, 0);
-                System.out.println("ceiling need: " + requiredCeiling + " got: " + world.getBlockState(ceilingPos).getBlock());
-                if (!requiredCeiling.equals(world.getBlockState(ceilingPos).getBlock())) return false;
+                var ceilingBlock = world.getBlockState(ceilingPos).getBlock();
+                System.out.println("ceiling need: " + requiredCeiling + " got: " + ceilingBlock);
+                if (!requiredCeiling.equals(ceilingBlock)) return false;
+                
+                if (block instanceof ReactorRodBlock) {
+                    fuelPorts.put(localPos, (ReactorFuelPortEntity) world.getBlockEntity(ceilingPos));
+                } else if (block instanceof ReactorAbsorberBlock) {
+                    absorberPorts.put(localPos, (ReactorAbsorberPortEntity) world.getBlockEntity(ceilingPos));
+                }
+                
             }
-            
-            var offset = pos.subtract(cornerAFlat);
-            var localPos = new Vector2i(offset.getX(), offset.getZ());
             activeComponents.put(localPos, reactorBlock);
             componentHeats.put(localPos, 0);
             System.out.println(offset + ": " + reactorBlock);
