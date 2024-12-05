@@ -1,7 +1,7 @@
 {
   "variants": {
     "": {
-      "model": "minecraft:block/cherry_fence"
+      "model": "minecraft:block/black_concrete"
     }
   }
 }

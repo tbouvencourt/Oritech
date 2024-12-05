@@ -2,6 +2,7 @@ package rearth.oritech.block.entity.reactor;
 
 import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.entity.player.PlayerEntity;
@@ -115,6 +116,20 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 
                 componentStats.put(localPos, new ComponentStatistics((short) 0, componentHeat, (short) sumGainedHeat, (short) (moveAmount)));
                 
+            } else if (component instanceof ReactorAbsorberBlock absorberBlock) {
+                
+                var sumRemovedHeat = 0;
+                
+                // take heat in from neighbors and remove it
+                for (var neighbor : getNeighborsInBounds(localPos, activeComponents.keySet())) {
+                    var neighborHeat = componentHeats.get(neighbor);
+                    if (neighborHeat <= 0) continue;
+                    neighborHeat -= 6;
+                    sumRemovedHeat += 6;
+                    componentHeats.put(neighbor, neighborHeat);
+                }
+                
+                componentStats.put(localPos, new ComponentStatistics((short) 0, componentHeat, (short) sumRemovedHeat, (short) (0)));
             } else if (component instanceof ReactorHeatVentBlock ventBlock) {
                 
                 var newHeat = (reactorHeat - 6 * reactorStackHeight);
@@ -194,6 +209,13 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 var candidate = world.getBlockState(candidatePos);
                 if (!candidate.getBlock().equals(block))
                     return false;
+            }
+            
+            var requiredCeiling = reactorBlock.requiredStackCeiling();
+            if (requiredCeiling != Blocks.AIR) {
+                var ceilingPos = pos.add(0, interiorHeight, 0);
+                System.out.println("ceiling need: " + requiredCeiling + " got: " + world.getBlockState(ceilingPos).getBlock());
+                if (!requiredCeiling.equals(world.getBlockState(ceilingPos).getBlock())) return false;
             }
             
             var offset = pos.subtract(cornerAFlat);
