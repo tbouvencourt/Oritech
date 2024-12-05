@@ -442,17 +442,17 @@ public class RecipeGenerator extends FabricRecipeProvider {
         addCompactingRecipe(exporter, BlockContent.STEEL_BLOCK, ItemContent.STEEL_INGOT, of(ItemTagGenerator.getIngotTag("steel")), of(ItemTagGenerator.getStorageBlockTag("steel")));
         addCompactingRecipe(exporter, BlockContent.ENERGITE_BLOCK, ItemContent.ENERGITE_INGOT, of(ItemTagGenerator.getIngotTag("energite")), of(ItemTagGenerator.getStorageBlockTag("energite")));
         addCompactingRecipe(exporter, BlockContent.NICKEL_BLOCK, ItemContent.NICKEL_INGOT, of(ItemTagGenerator.getIngotTag("nickel")), of(ItemTagGenerator.getStorageBlockTag("nickel")));
-        addCompactingRecipe(exporter, BlockContent.BIOSTEEL_BLOCK, ItemContent.BIOSTEEL_INGOT, of(ItemTagGenerator.getIngotTag("biosteel")), of(ItemTagGenerator.getStorageBlockTag("biosteel")));
+        addCompactingRecipe(exporter, BlockContent.BIOSTEEL_BLOCK, ItemContent.BIOSTEEL_INGOT, of(ItemContent.BIOSTEEL_INGOT), of(ItemTagGenerator.getStorageBlockTag("biosteel")));
         addCompactingRecipe(exporter, BlockContent.PLATINUM_BLOCK, ItemContent.PLATINUM_INGOT, of(ItemTagGenerator.getIngotTag("platinum")), of(ItemTagGenerator.getStorageBlockTag("platinum")));
         addCompactingRecipe(exporter, BlockContent.ADAMANT_BLOCK, ItemContent.ADAMANT_INGOT, of(ItemTagGenerator.getIngotTag("adamant")), of(ItemTagGenerator.getStorageBlockTag("adamant")));
         addCompactingRecipe(exporter, BlockContent.ELECTRUM_BLOCK, ItemContent.ELECTRUM_INGOT, of(ItemTagGenerator.getIngotTag("electrum")), of(ItemTagGenerator.getStorageBlockTag("electrum")));
         addCompactingRecipe(exporter, BlockContent.DURATIUM_BLOCK, ItemContent.DURATIUM_INGOT, of(ItemTagGenerator.getIngotTag("duratium")), of(ItemTagGenerator.getStorageBlockTag("duratium")));
-        addCompactingRecipe(exporter, BlockContent.BIOMASS_BLOCK, ItemContent.BIOMASS, of(ItemTagGenerator.getIngotTag("biomass")), of(ItemTagGenerator.getStorageBlockTag("biomass")));
-        addCompactingRecipe(exporter, BlockContent.PLASTIC_BLOCK, ItemContent.PLASTIC_SHEET, of(ItemTagGenerator.getIngotTag("plastic")), of(ItemTagGenerator.getStorageBlockTag("plastic")));
-        addCompactingRecipe(exporter, BlockContent.FLUXITE_BLOCK, ItemContent.FLUXITE, of(ItemTagGenerator.getIngotTag("fluxite")), of(ItemTagGenerator.getStorageBlockTag("fluxite")));
-        addCompactingRecipe(exporter, BlockContent.SILICON_BLOCK, ItemContent.SILICON, of(ItemTagGenerator.getIngotTag("silicon")), of(ItemTagGenerator.getStorageBlockTag("silicon")));
-        addCompactingRecipe(exporter, BlockContent.RAW_NICKEL_BLOCK, ItemContent.RAW_NICKEL, of(ItemTagGenerator.getIngotTag("raw_nickel")), of(ItemTagGenerator.getStorageBlockTag("raw_nickel")));
-        addCompactingRecipe(exporter, BlockContent.RAW_PLATINUM_BLOCK, ItemContent.RAW_PLATINUM, of(ItemTagGenerator.getIngotTag("raw_platinum")), of(ItemTagGenerator.getStorageBlockTag("raw_platinum")));
+        addCompactingRecipe(exporter, BlockContent.BIOMASS_BLOCK, ItemContent.BIOMASS, of(ItemContent.BIOMASS), of(ItemTagGenerator.getStorageBlockTag("biomass")));
+        addCompactingRecipe(exporter, BlockContent.PLASTIC_BLOCK, ItemContent.PLASTIC_SHEET, of(ItemContent.PLASTIC_SHEET), of(ItemTagGenerator.getStorageBlockTag("plastic")));
+        addCompactingRecipe(exporter, BlockContent.FLUXITE_BLOCK, ItemContent.FLUXITE, of(ItemContent.FLUXITE), of(ItemTagGenerator.getStorageBlockTag("fluxite")));
+        addCompactingRecipe(exporter, BlockContent.SILICON_BLOCK, ItemContent.SILICON, of(TagContent.SILICON), of(ItemTagGenerator.getStorageBlockTag("silicon")));
+        addCompactingRecipe(exporter, BlockContent.RAW_NICKEL_BLOCK, ItemContent.RAW_NICKEL, of(TagContent.NICKEL_RAW_ORES), of(ItemTagGenerator.getStorageBlockTag("raw_nickel")));
+        addCompactingRecipe(exporter, BlockContent.RAW_PLATINUM_BLOCK, ItemContent.RAW_PLATINUM, of(TagContent.PLATINUM_RAW_ORES), of(ItemTagGenerator.getStorageBlockTag("raw_platinum")));
         
     }
     
