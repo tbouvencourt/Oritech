@@ -59,14 +59,15 @@ public class ModelGenerator extends FabricModelProvider {
         
         // reactor section
         // currently invisible, because I stupidly decided to work on main branch on this while doing smaller releases
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_CONTROLLER, Blocks.IRON_BLOCK);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_CONTROLLER, Blocks.CRAFTER);
         blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_WALL, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_ROD, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_DOUBLE_ROD, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_QUAD_ROD, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_VENT, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_REFLECTOR, Blocks.IRON_BLOCK);
-        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_HEAT_PIPE, Blocks.IRON_BLOCK);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_ROD, Blocks.CRIMSON_FENCE);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_DOUBLE_ROD, Blocks.CHERRY_FENCE);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_QUAD_ROD, Blocks.ACACIA_FENCE);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_VENT, Blocks.IRON_BARS);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_REFLECTOR, Blocks.TARGET);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_HEAT_PIPE, Blocks.GOLD_BLOCK);
+        blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_CONDENSER, Blocks.LAPIS_BLOCK);
         
         // these blocks all use geckolib to render/display, so the only thing this really adds are block particles (e.g. when breaking)
         // the machine speed addon has a generic particle references that fits all machines well enough
