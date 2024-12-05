@@ -135,9 +135,10 @@ In detail, these are the following items that are from the above-mentioned sourc
 * glisco, the creator of owo-lib, for creating this awesome library and supporting in its usage
 * unilock, for providing most of the work on the EMI integration
 * The creators and maintainers of Geckolib for creating the great animation engine, and helping out in their discord
-* [LyFl0w's texture maker](https://github.com/LyFl0w/TextureMaker), which has been used for a lot of the other mod textures
+* [LyFl0w's texture maker](https://github.com/LyFl0w/TextureMaker), which has been used for item textures. Around 10 textures made with it are still in use.
 * Ycar, for creating all tiers of the machine core textures
-* BBoldt and BLOKBUSTR, for fixing a series of issues with the textures, and generally improving and redesigning almost all the metal component textures
+* BBoldt and BLOKBUSTR, for providing most of the metal item variant textures
 * jshipley, for a lot of contributions with new features, block, mechanics and bugfixes
 * CrazyMiner34, for improvements to item rendering in 3rd person & the wrench texture
 * NovaKatt, for creating most of the metal / compacted block textures
+* Armen, for making the pipes configurable with the wrench and some more improvements
