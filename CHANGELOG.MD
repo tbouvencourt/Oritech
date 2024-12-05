@@ -5,6 +5,9 @@
 - Add missing tag translations (only used in EMI I think)
 - Add new unholy intelligence texture
 - Add german translations (@Wolkensteinchen)
+- Add recipe fill integration to EMI
 - Update translations from crowdin
 - Fix item wrench recipe not using item tags
 - Fix all dye recipes resulting in white dye
+- Fix item filter block not dropping buffered items when destroyed
+- Fix fluid pipes not connecting to top half of centrifuges when pipes are placed before the centrifuge/addon
