@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.block.enums.BlockFace;
+import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemPlacementContext;
@@ -102,6 +103,23 @@ public class ItemFilterBlock extends Block implements BlockEntityProvider {
     @Override
     public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
         return getOutlineShape(state, world, pos, context);
+    }
+    
+    @Override
+    public BlockState onBreak(World world, BlockPos pos, BlockState state, PlayerEntity player) {
+        
+        if (!world.isClient) {
+            var entity = (ItemFilterBlockEntity) world.getBlockEntity(pos);
+            var stacks = entity.inventory.heldStacks;
+            for (var stack : stacks) {
+                if (!stack.isEmpty()) {
+                    var itemEntity = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), stack);
+                    world.spawnEntity(itemEntity);
+                }
+            }
+        }
+        
+        return super.onBreak(world, pos, state, player);
     }
 
     static {
