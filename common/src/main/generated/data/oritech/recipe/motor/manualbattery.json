@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "s": {
       "tag": "c:ingots/steel"

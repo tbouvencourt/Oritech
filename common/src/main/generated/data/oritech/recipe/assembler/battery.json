@@ -9,10 +9,10 @@
       "item": "oritech:plastic_sheet"
     },
     {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     {
       "tag": "c:ingots/steel"

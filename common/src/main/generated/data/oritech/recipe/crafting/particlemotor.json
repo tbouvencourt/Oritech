@@ -9,7 +9,7 @@
       "item": "oritech:advanced_battery"
     },
     "r": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "t": {
       "item": "oritech:superconductor"

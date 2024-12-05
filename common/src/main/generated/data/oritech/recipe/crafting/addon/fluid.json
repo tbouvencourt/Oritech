@@ -12,7 +12,7 @@
       "tag": "c:carbon_fibre"
     },
     "s": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     }
   },
   "pattern": [
