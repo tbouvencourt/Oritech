@@ -8,10 +8,9 @@ pluginManagement {
     }
 }
 
-rootProject.name = 'Oritech'
+rootProject.name = 'oritech'
 
 include 'common'
 include 'fabric'
 include 'fabricdatagen'
 include 'neoforge'
-
