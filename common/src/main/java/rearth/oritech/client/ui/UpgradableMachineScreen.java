@@ -159,7 +159,7 @@ public class UpgradableMachineScreen<S extends UpgradableMachineScreenHandler> e
             var relativePos = MultiblockMachineEntity.worldToRelativePos(handler.blockPos, addonBlockPos, facing);
             
             holoPreviewContainer.child(
-              new BlockPreviewComponent(addonBlock, addonBlockEntity, relativePos, rotationSpeed, 20)
+              new BlockPreviewComponent(addonBlock, addonBlockEntity, relativePos, rotationSpeed)
                 .sizing(Sizing.fixed(20))
                 .positioning(Positioning.absolute(previewX, previewY))
             );
@@ -206,7 +206,7 @@ public class UpgradableMachineScreen<S extends UpgradableMachineScreenHandler> e
             var dummyBlock = BlockContent.ADDON_INDICATOR_BLOCK.getDefaultState();
             
             holoPreviewContainer.child(
-              new BlockPreviewComponent(dummyBlock, null, relativePos, rotationSpeed, 20)
+              new BlockPreviewComponent(dummyBlock, null, relativePos, rotationSpeed)
                 .sizing(Sizing.fixed(20))
                 .positioning(Positioning.absolute(previewX, previewY))
             );
@@ -218,7 +218,7 @@ public class UpgradableMachineScreen<S extends UpgradableMachineScreenHandler> e
         
         // machine itself
         holoPreviewContainer.child(
-          new BlockPreviewComponent(handler.machineBlock, handler.blockEntity, new Vec3i(0, 0, 0), rotationSpeed, 20)
+          new BlockPreviewComponent(handler.machineBlock, handler.blockEntity, new Vec3i(0, 0, 0), rotationSpeed)
             .sizing(Sizing.fixed(20))
             .positioning(Positioning.absolute(previewX, previewY))
         );
