@@ -58,6 +58,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     // rods generate heat. Base rate pushes it to reactor at generation speed. Multi-cores and reflectors (expensive) change this
     // heat pipes move heat to them and to the reactor casing
     // vents remove heat from the reactor casing
+    // absorber remove heat from neighboring blocks
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, ReactorControllerBlockEntity blockEntity) {

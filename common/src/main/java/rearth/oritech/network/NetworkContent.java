@@ -75,7 +75,7 @@ public class NetworkContent {
     }
     
     public record MachineFrameMovementPacket(BlockPos position, BlockPos currentTarget, BlockPos lastTarget,
-                                             BlockPos areaMin, BlockPos areaMax) {
+                                             BlockPos areaMin, BlockPos areaMax, boolean redstoneDisable) {
     }   // times are in ticks
     
     public record QuarryTargetPacket(BlockPos position, BlockPos quarryTarget, int range, int yieldAddons, float operationSpeed) {
@@ -387,6 +387,7 @@ public class NetworkContent {
                 machine.setMoveStartedAt(access.player().getWorld().getTime());
                 machine.setAreaMin(message.areaMin);
                 machine.setAreaMax(message.areaMax);
+                machine.disabledViaRedstone = message.redstoneDisable();
             }
             
         }));
