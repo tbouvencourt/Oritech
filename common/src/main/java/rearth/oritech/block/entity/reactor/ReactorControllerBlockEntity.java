@@ -132,14 +132,21 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
             } else if (component instanceof ReactorAbsorberBlock absorberBlock) {
                 
                 var sumRemovedHeat = 0;
+                var fuelAvailable = absorberPorts.get(localPos).getAvailableFuel();
                 
-                // take heat in from neighbors and remove it
-                for (var neighbor : getNeighborsInBounds(localPos, activeComponents.keySet())) {
-                    var neighborHeat = componentHeats.get(neighbor);
-                    if (neighborHeat <= 0) continue;
-                    neighborHeat -= 6;
-                    sumRemovedHeat += 6;
-                    componentHeats.put(neighbor, neighborHeat);
+                if (fuelAvailable >= reactorStackHeight) {
+                    // take heat in from neighbors and remove it
+                    for (var neighbor : getNeighborsInBounds(localPos, activeComponents.keySet())) {
+                        var neighborHeat = componentHeats.get(neighbor);
+                        if (neighborHeat <= 0) continue;
+                        neighborHeat -= 6;
+                        sumRemovedHeat += 6;
+                        componentHeats.put(neighbor, neighborHeat);
+                    }
+                }
+                
+                if (sumRemovedHeat > 0) {
+                    absorberPorts.get(localPos).consumeFuel(reactorStackHeight);
                 }
                 
                 componentStats.put(localPos, new ComponentStatistics((short) 0, componentHeat, (short) sumRemovedHeat, (short) (0)));
@@ -334,7 +341,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
         if (!active || activeComponents.isEmpty() || !isActivelyViewed()) return;
         
         for (var port : fuelPorts.values()) port.updateNetwork();
-        // for (var port : absorberPorts.values()) port.updateNetwork();
+        for (var port : absorberPorts.values()) port.updateNetwork();
         
         var positionsFlat = activeComponents.keySet();
         var positions = positionsFlat.stream().map(pos -> areaMin.add(pos.x + 1, 1, pos.y + 1)).toList();

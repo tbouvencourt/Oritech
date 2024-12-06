@@ -26,6 +26,7 @@ import rearth.oritech.block.entity.generators.SteamEngineEntity;
 import rearth.oritech.block.entity.interaction.*;
 import rearth.oritech.block.entity.pipes.ItemFilterBlockEntity;
 import rearth.oritech.block.entity.processing.CentrifugeBlockEntity;
+import rearth.oritech.block.entity.reactor.ReactorAbsorberPortEntity;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
 import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 import rearth.oritech.init.ComponentContent;
@@ -502,7 +503,11 @@ public class NetworkContent {
             
             var entity = access.player().getWorld().getBlockEntity(message.position);
             
+            // this is what happens when you're too lazy to add an interface
             if (entity instanceof ReactorFuelPortEntity port) {
+                port.currentFuelOriginalCapacity = message.capacity;
+                port.availableFuel = message.remaining;
+            } else if (entity instanceof ReactorAbsorberPortEntity port) {
                 port.currentFuelOriginalCapacity = message.capacity;
                 port.availableFuel = message.remaining;
             }

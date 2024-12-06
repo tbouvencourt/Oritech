@@ -7,6 +7,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
+import net.minecraft.item.Items;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -17,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import rearth.oritech.client.init.ModScreens;
 import rearth.oritech.client.ui.BasicMachineScreenHandler;
 import rearth.oritech.init.BlockEntitiesContent;
+import rearth.oritech.network.NetworkContent;
 import rearth.oritech.util.*;
 
 import java.util.List;
@@ -26,8 +28,41 @@ public class ReactorAbsorberPortEntity extends BlockEntity implements ExtendedSc
     private final SimpleSidedInventory inventory = new SimpleSidedInventory(1, new InventorySlotAssignment(0, 1, 1, 0));
     private final InventoryStorage inventoryStorage = InventoryStorage.of(inventory, null);
     
+    public int availableFuel;
+    public int currentFuelOriginalCapacity;
+    
     public ReactorAbsorberPortEntity(BlockPos pos, BlockState state) {
         super(BlockEntitiesContent.REACTOR_ABSORBER_PORT_BLOCK_ENTITY, pos, state);
+    }
+    
+    public int getAvailableFuel() {
+        if (availableFuel > 0) {
+            return availableFuel;
+        }
+        
+        // try consume item
+        var inputStack = inventory.getStack(0);
+        if (inputStack.isEmpty()) return 0;
+        
+        if (inputStack.getItem().equals(Items.BLUE_ICE)) {
+            var capacity = 1000;
+            currentFuelOriginalCapacity = capacity;
+            availableFuel = capacity;
+            inputStack.decrement(1);
+        }
+        
+        return availableFuel;
+    }
+    
+    public void consumeFuel(int amount) {
+        if (availableFuel >= amount) {
+            availableFuel -= amount;
+        }
+        
+    }
+    
+    public void updateNetwork() {
+        NetworkContent.MACHINE_CHANNEL.serverHandle(this).send(new NetworkContent.ReactorPortDataPacket(pos, currentFuelOriginalCapacity, availableFuel));
     }
     
     @Override

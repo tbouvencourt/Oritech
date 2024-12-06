@@ -18,6 +18,7 @@ import rearth.oritech.block.blocks.reactor.ReactorAbsorberBlock;
 import rearth.oritech.block.blocks.reactor.ReactorHeatPipeBlock;
 import rearth.oritech.block.blocks.reactor.ReactorHeatVentBlock;
 import rearth.oritech.block.blocks.reactor.ReactorRodBlock;
+import rearth.oritech.block.entity.reactor.ReactorAbsorberPortEntity;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
 import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 import rearth.oritech.client.ui.components.ReactorBlockRenderComponent;
@@ -136,7 +137,7 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
         for (var overlay : activeOverlays) {
             var data = getStatsAtPosition(overlay.pos);
             
-            var isEmpty = data.storedHeat() <= 0;
+            var isEmpty = data.storedHeat() <= 10;
             if (isEmpty) {
                 overlay.state = Blocks.AIR.getDefaultState();
                 continue;
@@ -241,7 +242,13 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
         } else if (state.getBlock() instanceof ReactorHeatVentBlock pipeBlock) {
             container.child(Components.label(Text.translatable("text.oritech.reactor.removed_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
         } else if (state.getBlock() instanceof ReactorAbsorberBlock absorberBlock) {
+            
+            if (!(portEntity instanceof ReactorAbsorberPortEntity absorberPortEntity)) return;
+            var availableFuel = absorberPortEntity.availableFuel;
+            var maxFuel = absorberPortEntity.currentFuelOriginalCapacity;
+            
             container.child(Components.label(Text.translatable("text.oritech.reactor.absorbed_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
+            container.child(Components.label(Text.translatable("text.oritech.reactor.absorbant", availableFuel, maxFuel).formatted(Formatting.WHITE)));
         }
         
     }
