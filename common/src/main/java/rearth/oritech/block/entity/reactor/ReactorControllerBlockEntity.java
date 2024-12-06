@@ -62,7 +62,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     @Override
     public void tick(World world, BlockPos pos, BlockState state, ReactorControllerBlockEntity blockEntity) {
-        if (world.isClient || activeComponents.isEmpty()) return;
+        if (world.isClient || !active || activeComponents.isEmpty()) return;
         
         for (var localPos : activeComponents.keySet()) {
             var component = activeComponents.get(localPos);
@@ -322,7 +322,7 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     private void sendUINetworkData() {
         
-        if (activeComponents.isEmpty()) return;
+        if (!active || activeComponents.isEmpty()) return;
         
         var positionsFlat = activeComponents.keySet();
         var positions = positionsFlat.stream().map(pos -> areaMin.add(pos.x + 1, 1, pos.y + 1)).toList();

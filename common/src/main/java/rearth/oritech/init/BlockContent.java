@@ -88,6 +88,12 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     
     @NoBlockItem
     public static final Block ADDON_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_COLD_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_MEDIUM_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_HOT_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
     
     @UseGeoBlockItem(scale = 0.7f)
     public static final Block PULVERIZER_BLOCK = new PulverizerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());

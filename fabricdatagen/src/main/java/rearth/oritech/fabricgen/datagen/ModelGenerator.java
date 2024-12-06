@@ -72,6 +72,10 @@ public class ModelGenerator extends FabricModelProvider {
         blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_ENERGY_PORT, Blocks.CYAN_TERRACOTTA);
         blockStateModelGenerator.registerStateWithModelReference(BlockContent.REACTOR_ABSORBER_PORT, Blocks.LIGHT_BLUE_TERRACOTTA);
         
+        blockStateModelGenerator.registerSimpleCubeAll(BlockContent.REACTOR_COLD_INDICATOR_BLOCK);
+        blockStateModelGenerator.registerSimpleCubeAll(BlockContent.REACTOR_MEDIUM_INDICATOR_BLOCK);
+        blockStateModelGenerator.registerSimpleCubeAll(BlockContent.REACTOR_HOT_INDICATOR_BLOCK);
+        
         // these blocks all use geckolib to render/display, so the only thing this really adds are block particles (e.g. when breaking)
         // the machine speed addon has a generic particle references that fits all machines well enough
         blockStateModelGenerator.registerStateWithModelReference(BlockContent.PULVERIZER_BLOCK, BlockContent.MACHINE_SPEED_ADDON);
