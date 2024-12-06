@@ -1,9 +1,14 @@
 package rearth.oritech.block.blocks.reactor;
 
+import net.fabricmc.fabric.api.screenhandler.v1.ExtendedScreenHandlerFactory;
 import net.minecraft.block.BlockEntityProvider;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 
@@ -21,5 +26,16 @@ public class ReactorFuelPortBlock extends BaseReactorBlock implements BlockEntit
     @Override
     public boolean validForWalls() {
         return true;
+    }
+    
+    @Override
+    public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        
+        if (!world.isClient && world.getBlockEntity(pos) instanceof ReactorFuelPortEntity) {
+            var handler = (ExtendedScreenHandlerFactory) world.getBlockEntity(pos);
+            player.openHandledScreen(handler);
+        }
+        
+        return ActionResult.SUCCESS;
     }
 }

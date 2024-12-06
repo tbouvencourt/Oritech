@@ -26,6 +26,7 @@ import rearth.oritech.util.energy.containers.SimpleEnergyStorage;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 public class ReactorControllerBlockEntity extends BlockEntity implements BlockEntityTicker<ReactorControllerBlockEntity>, EnergyApi.BlockProvider, ExtendedScreenHandlerFactory {
@@ -72,26 +73,34 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
                 var ownRodCount = rodBlock.getRodCount();
                 var receivedPulses = rodBlock.getInternalPulseCount();
                 
-                // check how many pulses are received from neighbors / reflectors
-                for (var neighborPos : getNeighborsInBounds(localPos, activeComponents.keySet())) {
-                    
-                    var neighbor = activeComponents.get(neighborPos);
-                    if (neighbor instanceof ReactorRodBlock neighborRod) {
-                        receivedPulses += neighborRod.getRodCount();
-                    } else if (neighbor instanceof ReactorReflectorBlock reflectorBlock) {
-                        receivedPulses += rodBlock.getRodCount();
+                var hasFuel = fuelPorts.get(localPos).tryConsumeFuel(ownRodCount * reactorStackHeight);
+                var heatCreated = 0;
+                
+                if (hasFuel) {
+                    // check how many pulses are received from neighbors / reflectors
+                    for (var neighborPos : getNeighborsInBounds(localPos, activeComponents.keySet())) {
+                        
+                        var neighbor = activeComponents.get(neighborPos);
+                        if (neighbor instanceof ReactorRodBlock neighborRod) {
+                            receivedPulses += neighborRod.getRodCount();
+                        } else if (neighbor instanceof ReactorReflectorBlock reflectorBlock) {
+                            receivedPulses += rodBlock.getRodCount();
+                        }
                     }
+                    
+                    // generate 5 RF per pulse
+                    energyStorage.insertIgnoringLimit(5 * receivedPulses * reactorStackHeight, false);
+                    
+                    // generate heat per pulse
+                    heatCreated = (receivedPulses / 2 * receivedPulses + 4);
+                    componentHeat += heatCreated;
+                } else {
+                    receivedPulses = 0;
                 }
-                
-                // generate 5 RF per pulse
-                energyStorage.insertIgnoringLimit(5 * receivedPulses * reactorStackHeight, false);
-                
-                // generate heat per pulse
-                var heatCreated = (receivedPulses / 2 * receivedPulses + 4);
-                componentHeat += heatCreated;
                 
                 // move a base amount of heat to the reactor hull
                 var moved = ownRodCount * 4;
+                moved = Math.min(componentHeat, moved);
                 componentHeat -= moved;
                 reactorHeat += moved * reactorStackHeight;
                 
@@ -322,13 +331,21 @@ public class ReactorControllerBlockEntity extends BlockEntity implements BlockEn
     
     private void sendUINetworkData() {
         
-        if (!active || activeComponents.isEmpty()) return;
+        if (!active || activeComponents.isEmpty() || !isActivelyViewed()) return;
+        
+        for (var port : fuelPorts.values()) port.updateNetwork();
+        // for (var port : absorberPorts.values()) port.updateNetwork();
         
         var positionsFlat = activeComponents.keySet();
         var positions = positionsFlat.stream().map(pos -> areaMin.add(pos.x + 1, 1, pos.y + 1)).toList();
         var heats = positionsFlat.stream().map(pos -> componentStats.getOrDefault(pos, ComponentStatistics.EMPTY)).toList();
         
         NetworkContent.MACHINE_CHANNEL.serverHandle(this).send(new NetworkContent.ReactorUISyncPacket(pos, positions, heats));
+    }
+    
+    private boolean isActivelyViewed() {
+        var closestPlayer = Objects.requireNonNull(world).getClosestPlayer(pos.getX(), pos.getY(), pos.getZ(), 5, false);
+        return closestPlayer != null && closestPlayer.currentScreenHandler instanceof ReactorScreenHandler handler && getPos().equals(handler.reactorEntity.pos);
     }
     
     @Override

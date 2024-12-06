@@ -27,6 +27,7 @@ import rearth.oritech.block.entity.interaction.*;
 import rearth.oritech.block.entity.pipes.ItemFilterBlockEntity;
 import rearth.oritech.block.entity.processing.CentrifugeBlockEntity;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
+import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 import rearth.oritech.init.ComponentContent;
 import rearth.oritech.init.recipes.OritechRecipe;
 import rearth.oritech.init.recipes.OritechRecipeType;
@@ -138,6 +139,9 @@ public class NetworkContent {
     }
     
     public record ReactorUIDataPacket(BlockPos position, BlockPos min, BlockPos max, BlockPos previewMax) {
+    }
+    
+    public record ReactorPortDataPacket(BlockPos position, int capacity, int remaining) {
     }
     
     public record ReactorUISyncPacket(BlockPos position, List<BlockPos> componentPositions, List<ReactorControllerBlockEntity.ComponentStatistics> componentHeats) {
@@ -490,6 +494,17 @@ public class NetworkContent {
             
             if (entity instanceof ReactorControllerBlockEntity reactor) {
                 reactor.uiSyncData = message;
+            }
+            
+        }));
+        
+        MACHINE_CHANNEL.registerClientbound(ReactorPortDataPacket.class, ((message, access) -> {
+            
+            var entity = access.player().getWorld().getBlockEntity(message.position);
+            
+            if (entity instanceof ReactorFuelPortEntity port) {
+                port.currentFuelOriginalCapacity = message.capacity;
+                port.availableFuel = message.remaining;
             }
             
         }));

@@ -19,6 +19,7 @@ import rearth.oritech.block.blocks.reactor.ReactorHeatPipeBlock;
 import rearth.oritech.block.blocks.reactor.ReactorHeatVentBlock;
 import rearth.oritech.block.blocks.reactor.ReactorRodBlock;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
+import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 import rearth.oritech.client.ui.components.ReactorBlockRenderComponent;
 import rearth.oritech.client.ui.components.ReactorPreviewContainer;
 import rearth.oritech.init.BlockContent;
@@ -200,6 +201,10 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
         var stats = getStatsAtPosition(pos);
         if (stats.storedHeat() == -1) return;
         
+        var stackHeight = handler.reactorEntity.uiData.max().getY() - handler.reactorEntity.uiData.min().getY() - 1;
+        var portPosition = pos.add(0, stackHeight, 0);
+        var portEntity = handler.world.getBlockEntity(portPosition);
+        
         // todo remove magic numbers here
         
         if (state.getBlock() instanceof ReactorRodBlock rodBlock) {
@@ -212,6 +217,15 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
             var heatToReactor = stats.heatToReactor();
             var heat = stats.storedHeat();
             
+            if (totalPulses == 0) { // probably no fuel
+                createdPulses = 0;
+                externalPulses = 0;
+            }
+            
+            if (!(portEntity instanceof ReactorFuelPortEntity fuelPortEntity)) return;
+            var availableFuel = fuelPortEntity.availableFuel;
+            var maxFuel = fuelPortEntity.currentFuelOriginalCapacity;
+            
             container.child(Components.label(Text.translatable("text.oritech.reactor.rod_count", rodCount).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.generated_pulses", createdPulses).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.received_pulses", externalPulses).formatted(Formatting.WHITE)));
@@ -219,6 +233,7 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
             container.child(Components.label(Text.translatable("text.oritech.reactor.generated_energy", generatedEnergy).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat_to_reactor", heatToReactor).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat", heat).formatted(Formatting.WHITE)));
+            container.child(Components.label(Text.translatable("text.oritech.reactor.fuel", availableFuel, maxFuel).formatted(Formatting.WHITE)));
         } else if (state.getBlock() instanceof ReactorHeatPipeBlock pipeBlock) {
             container.child(Components.label(Text.translatable("text.oritech.reactor.collected_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat_to_reactor", stats.heatToReactor()).formatted(Formatting.WHITE)));
