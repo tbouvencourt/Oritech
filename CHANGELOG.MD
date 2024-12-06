@@ -1,7 +1,0 @@
-- Add the ability for the centrifuge to handle multiple recipes with different fluids for the same input items (only relevant for datapack makers)
-- Fix machine upgrade slot preview renderer not working
-- Fix redstone UI on machine frame blocks not updating
-- Fix some resource blocks using wrong tags in recipes
-- Fix recipes using electrum ingots instead of tags
-- Fix some steel item instead of tag usages in recipes
-- Minor documentation improvements
