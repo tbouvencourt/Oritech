@@ -6,7 +6,7 @@
   "fluidOutputVariant": "minecraft:empty",
   "ingredients": [
     {
-      "item": "oritech:electrum_dust"
+      "tag": "c:dusts/electrum"
     },
     {
       "item": "minecraft:redstone"

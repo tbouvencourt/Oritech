@@ -34,6 +34,9 @@ public class TagContent {
     public static final TagKey<Item> PLATINUM_INGOTS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/platinum"));
     public static final TagKey<Item> PLATINUM_ORES = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ores/platinum"));
     
+    public static final TagKey<Item> ELECTRUM_INGOTS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "ingots/electrum"));
+    public static final TagKey<Item> ELECTRUM_DUSTS = TagKey.of(RegistryKeys.ITEM, Identifier.of("c", "dusts/electrum"));
+    
     // biomass
     public static final TagKey<Item> BIOMASS = TagKey.of(RegistryKeys.ITEM, Oritech.id("biomass"));
     

@@ -93,6 +93,8 @@ public class RedstoneAddonBlockEntity extends AddonBlockEntity implements BlockE
     public void setRedstonePowered(boolean isPowered) {
         this.markDirty();
         
+        if (activeMode != RedstoneMode.INPUT_CONTROL) return;
+        
         if (getCachedController() != null)
             cachedController.onRedstoneEvent(isPowered);
         

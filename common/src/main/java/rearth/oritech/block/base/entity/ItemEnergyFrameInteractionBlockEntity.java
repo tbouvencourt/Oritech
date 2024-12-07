@@ -45,7 +45,6 @@ public abstract class ItemEnergyFrameInteractionBlockEntity extends FrameInterac
     private final List<BlockPos> connectedAddons = new ArrayList<>();
     private final List<BlockPos> openSlots = new ArrayList<>();
     private BaseAddonData addonData = MachineAddonController.DEFAULT_ADDON_DATA;
-    private boolean disabledViaRedstone;
     
     public ItemEnergyFrameInteractionBlockEntity(BlockEntityType<?> type, BlockPos pos, BlockState state) {
         super(type, pos, state);
@@ -279,5 +278,17 @@ public abstract class ItemEnergyFrameInteractionBlockEntity extends FrameInterac
     @Override
     public void onRedstoneEvent(boolean isPowered) {
         this.disabledViaRedstone = isPowered;
+    }
+    
+    @Override
+    public int receivedRedstoneSignal() {
+        if (disabledViaRedstone) return 15;
+        return 0;
+    }
+    
+    @Override
+    public String currentRedstoneEffect() {
+        if (disabledViaRedstone) return "tooltip.oritech.redstone_disabled";
+        return "tooltip.oritech.redstone_enabled";
     }
 }

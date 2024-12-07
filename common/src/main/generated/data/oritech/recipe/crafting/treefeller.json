@@ -9,7 +9,7 @@
       "item": "oritech:motor"
     },
     "f": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "s": {
       "item": "minecraft:iron_axe"

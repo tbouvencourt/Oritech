@@ -1,6 +1,7 @@
 package rearth.oritech.block.blocks.reactor;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
 
 public abstract class BaseReactorBlock extends Block {
     
@@ -9,5 +10,9 @@ public abstract class BaseReactorBlock extends Block {
     }
     
     public boolean validForWalls() { return false; }
+    
+    public Block requiredStackCeiling() {
+        return Blocks.AIR;
+    }
     
 }

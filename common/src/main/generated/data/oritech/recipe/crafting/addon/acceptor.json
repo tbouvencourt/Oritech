@@ -12,7 +12,7 @@
       "item": "oritech:plastic_sheet"
     },
     "s": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     }
   },
   "pattern": [

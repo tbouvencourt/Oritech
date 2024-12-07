@@ -7,27 +7,35 @@ import io.wispforest.owo.ui.container.Containers;
 import io.wispforest.owo.ui.container.FlowLayout;
 import io.wispforest.owo.ui.core.*;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Pair;
 import net.minecraft.util.math.BlockPos;
 import org.jetbrains.annotations.NotNull;
+import rearth.oritech.block.blocks.reactor.ReactorAbsorberBlock;
 import rearth.oritech.block.blocks.reactor.ReactorHeatPipeBlock;
 import rearth.oritech.block.blocks.reactor.ReactorHeatVentBlock;
 import rearth.oritech.block.blocks.reactor.ReactorRodBlock;
+import rearth.oritech.block.entity.reactor.ReactorAbsorberPortEntity;
 import rearth.oritech.block.entity.reactor.ReactorControllerBlockEntity;
+import rearth.oritech.block.entity.reactor.ReactorFuelPortEntity;
 import rearth.oritech.client.ui.components.ReactorBlockRenderComponent;
 import rearth.oritech.client.ui.components.ReactorPreviewContainer;
+import rearth.oritech.init.BlockContent;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashSet;
 
 public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScreenHandler> {
     
     private ArrayList<Pair<Integer, ReactorBlockRenderComponent>> activeComponents;
+    private HashSet<ReactorBlockRenderComponent> activeOverlays;
     private LabelComponent tooltipTitle;
     private FlowLayout tooltipContainer;
+    private ReactorBlockRenderComponent selectedBlockOverlay;
     
     public ReactorScreen(ReactorScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -83,6 +91,7 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
         System.out.println(size);
         
         activeComponents = new ArrayList<>();
+        activeOverlays = new HashSet<>();
         
         BlockPos.stream(uiData.min(), uiData.previewMax()).forEach(pos -> {
             var state = handler.world.getBlockState(pos);
@@ -99,11 +108,52 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
             }
             holoPreviewContainer.child(preview);
             
+            if (state.getBlock() instanceof ReactorRodBlock || state.getBlock() instanceof ReactorHeatPipeBlock) {
+                var heatOverlay = new ReactorBlockRenderComponent(Blocks.AIR.getDefaultState(), null, zIndex + 0.5f, pos.toImmutable())
+                                    .sizing(Sizing.fixed(size))
+                                    .positioning(Positioning.absolute((int) (projectedPosX * size + xOffset), (int) (-projectedPosY * size) + 120));
+                
+                holoPreviewContainer.child(heatOverlay);
+                activeOverlays.add((ReactorBlockRenderComponent) heatOverlay);
+            }
+            
         });
+        
+        selectedBlockOverlay = (ReactorBlockRenderComponent) new ReactorBlockRenderComponent(Blocks.AIR.getDefaultState(), null, 10 + 0.5f, BlockPos.ORIGIN)
+                                     .sizing(Sizing.fixed(size))
+                                     .positioning(Positioning.absolute(0, 0));
+        holoPreviewContainer.child(selectedBlockOverlay);
         
         activeComponents.sort(Comparator.comparingInt(Pair::getLeft));
         
         overlay.child(holoPreviewContainer);
+        
+    }
+    
+    @Override
+    protected void handledScreenTick() {
+        super.handledScreenTick();
+        
+        for (var overlay : activeOverlays) {
+            var data = getStatsAtPosition(overlay.pos);
+            
+            var isEmpty = data.storedHeat() <= 10;
+            if (isEmpty) {
+                overlay.state = Blocks.AIR.getDefaultState();
+                continue;
+            }
+            
+            var res = BlockContent.REACTOR_COLD_INDICATOR_BLOCK.getDefaultState();
+            
+            // TODO remove magic numbers here
+            if (data.storedHeat() > 1000) {
+                res = BlockContent.REACTOR_HOT_INDICATOR_BLOCK.getDefaultState();
+            } else if (data.storedHeat() > 200) {
+                res = BlockContent.REACTOR_MEDIUM_INDICATOR_BLOCK.getDefaultState();
+            }
+            
+            overlay.state = res;
+        }
         
     }
     
@@ -120,12 +170,19 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
                 addStatsToTooltip(pos, handler.world.getBlockState(pos), tooltipContainer);
                 posX = component.getRight().x();
                 posY = component.getRight().y();
+                
+                selectedBlockOverlay.state = BlockContent.ADDON_INDICATOR_BLOCK.getDefaultState();
+                selectedBlockOverlay.pos = pos;
+                selectedBlockOverlay.zIndex = component.getRight().zIndex + 0.6f;
+                selectedBlockOverlay.positioning(component.getRight().positioning().get());
+                
                 break;
             }
         }
         
         if (posX == mouseX) {   // move out of visible area
             tooltipContainer.positioning(Positioning.absolute(-100, -500));
+            selectedBlockOverlay.state = Blocks.AIR.getDefaultState();
             return;
         }
         
@@ -145,6 +202,10 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
         var stats = getStatsAtPosition(pos);
         if (stats.storedHeat() == -1) return;
         
+        var stackHeight = handler.reactorEntity.uiData.max().getY() - handler.reactorEntity.uiData.min().getY() - 1;
+        var portPosition = pos.add(0, stackHeight, 0);
+        var portEntity = handler.world.getBlockEntity(portPosition);
+        
         // todo remove magic numbers here
         
         if (state.getBlock() instanceof ReactorRodBlock rodBlock) {
@@ -157,6 +218,15 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
             var heatToReactor = stats.heatToReactor();
             var heat = stats.storedHeat();
             
+            if (totalPulses == 0) { // probably no fuel
+                createdPulses = 0;
+                externalPulses = 0;
+            }
+            
+            if (!(portEntity instanceof ReactorFuelPortEntity fuelPortEntity)) return;
+            var availableFuel = fuelPortEntity.availableFuel;
+            var maxFuel = fuelPortEntity.currentFuelOriginalCapacity;
+            
             container.child(Components.label(Text.translatable("text.oritech.reactor.rod_count", rodCount).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.generated_pulses", createdPulses).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.received_pulses", externalPulses).formatted(Formatting.WHITE)));
@@ -164,12 +234,21 @@ public class ReactorScreen extends BaseOwoHandledScreen<FlowLayout, ReactorScree
             container.child(Components.label(Text.translatable("text.oritech.reactor.generated_energy", generatedEnergy).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat_to_reactor", heatToReactor).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat", heat).formatted(Formatting.WHITE)));
+            container.child(Components.label(Text.translatable("text.oritech.reactor.fuel", availableFuel, maxFuel).formatted(Formatting.WHITE)));
         } else if (state.getBlock() instanceof ReactorHeatPipeBlock pipeBlock) {
             container.child(Components.label(Text.translatable("text.oritech.reactor.collected_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat_to_reactor", stats.heatToReactor()).formatted(Formatting.WHITE)));
             container.child(Components.label(Text.translatable("text.oritech.reactor.heat", stats.storedHeat()).formatted(Formatting.WHITE)));
         } else if (state.getBlock() instanceof ReactorHeatVentBlock pipeBlock) {
             container.child(Components.label(Text.translatable("text.oritech.reactor.removed_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
+        } else if (state.getBlock() instanceof ReactorAbsorberBlock absorberBlock) {
+            
+            if (!(portEntity instanceof ReactorAbsorberPortEntity absorberPortEntity)) return;
+            var availableFuel = absorberPortEntity.availableFuel;
+            var maxFuel = absorberPortEntity.currentFuelOriginalCapacity;
+            
+            container.child(Components.label(Text.translatable("text.oritech.reactor.absorbed_heat", stats.heatChanged()).formatted(Formatting.WHITE)));
+            container.child(Components.label(Text.translatable("text.oritech.reactor.absorbant", availableFuel, maxFuel).formatted(Formatting.WHITE)));
         }
         
     }

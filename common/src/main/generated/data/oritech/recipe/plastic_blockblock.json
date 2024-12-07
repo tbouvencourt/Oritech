@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "#": {
-      "tag": "c:ingots/plastic"
+      "item": "oritech:plastic_sheet"
     }
   },
   "pattern": [

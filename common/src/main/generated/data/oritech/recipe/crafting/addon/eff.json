@@ -6,7 +6,7 @@
       "tag": "oritech:plating"
     },
     "c": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "f": {
       "item": "oritech:plastic_sheet"

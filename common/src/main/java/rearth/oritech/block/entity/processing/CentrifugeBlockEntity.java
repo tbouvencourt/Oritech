@@ -20,6 +20,7 @@ import net.minecraft.item.BucketItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.recipe.RecipeEntry;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.screen.ScreenHandler;
@@ -44,6 +45,8 @@ import rearth.oritech.util.FluidProvider;
 import rearth.oritech.util.InventorySlotAssignment;
 
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 
 public class CentrifugeBlockEntity extends MultiblockMachineEntity implements FluidProvider {
     
@@ -62,7 +65,7 @@ public class CentrifugeBlockEntity extends MultiblockMachineEntity implements Fl
         public void markDirty() {
             CentrifugeBlockEntity.this.markDirty();
         }
-
+        
         @Override
         public boolean canInsert(ItemStack stack) {
             System.out.println(stack);
@@ -155,7 +158,8 @@ public class CentrifugeBlockEntity extends MultiblockMachineEntity implements Fl
         // check if input is available
         var input = recipe.getFluidInput();
         if (input == null || input.getAmount() <= 0) return false;
-        if (!input.getFluid().equals(inputStorage.variant.getFluid()) || input.getAmount() > inputStorage.amount) return false;
+        if (!input.getFluid().equals(inputStorage.variant.getFluid()) || input.getAmount() > inputStorage.amount)
+            return false;
         
         // check if output fluid fits
         var output = recipe.getFluidOutput();
@@ -168,6 +172,31 @@ public class CentrifugeBlockEntity extends MultiblockMachineEntity implements Fl
         
         return true;
         
+    }
+    
+    @Override
+    protected Optional<RecipeEntry<OritechRecipe>> getRecipe() {
+        
+        if (!hasFluidAddon)
+            return super.getRecipe();
+
+        // get recipes matching input items
+        var candidates = Objects.requireNonNull(world).getRecipeManager().getAllMatches(getOwnRecipeType(), getInputInventory(), world);
+        // filter out recipes based on input tank
+        return candidates.stream().filter(candidate -> recipeMatchesTank(inputStorage, candidate.value())).findAny();
+    }
+    
+    protected boolean recipeMatchesTank(SingleVariantStorage<FluidVariant> checkedTank, OritechRecipe recipe) {
+        
+        var isTankEmpty = checkedTank.isResourceBlank() || checkedTank.amount <= 0;
+        var recipeNeedsFluid = recipe.getFluidInput() != null && recipe.getFluidInput().getAmount() > 0;
+        
+        if (!recipeNeedsFluid) return true;
+        if (isTankEmpty) return false;
+        
+        var recipeFluid = recipe.getFluidInput().getFluid();
+        var tankFluid = checkedTank.variant.getFluid();
+        return recipeFluid.equals(tankFluid) && checkedTank.amount >= recipe.getFluidInput().getAmount();
     }
     
     @Override

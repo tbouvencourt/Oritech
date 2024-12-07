@@ -88,6 +88,12 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     
     @NoBlockItem
     public static final Block ADDON_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_COLD_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_MEDIUM_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
+    @NoBlockItem
+    public static final Block REACTOR_HOT_INDICATOR_BLOCK = new Block(AbstractBlock.Settings.copy(Blocks.GLASS));
     
     @UseGeoBlockItem(scale = 0.7f)
     public static final Block PULVERIZER_BLOCK = new PulverizerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque());
@@ -190,22 +196,18 @@ public class BlockContent implements ArchitecturyBlockRegistryContainer {
     public static final Block MACHINE_REDSTONE_ADDON = new RedstoneAddonBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK).nonOpaque(), AddonSettings.getDefaultSettings().withBoundingShape(MachineAddonBlock.MACHINE_REDSTONE_ADDON_SHAPE));
     
     //region reactor
-    @NoBlockItem
     public static final Block REACTOR_CONTROLLER = new ReactorControllerBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
-    @NoBlockItem
     public static final Block REACTOR_WALL = new ReactorWallBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
-    @NoBlockItem
     public static final Block REACTOR_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK), 1, 1);
-    @NoBlockItem
     public static final Block REACTOR_DOUBLE_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK), 2, 4);
-    @NoBlockItem
     public static final Block REACTOR_QUAD_ROD = new ReactorRodBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK), 4, 12);
-    @NoBlockItem
     public static final Block REACTOR_VENT = new ReactorHeatVentBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
-    @NoBlockItem
     public static final Block REACTOR_REFLECTOR = new ReactorReflectorBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
-    @NoBlockItem
     public static final Block REACTOR_HEAT_PIPE = new ReactorHeatPipeBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_CONDENSER = new ReactorAbsorberBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_FUEL_PORT = new ReactorFuelPortBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_ABSORBER_PORT = new ReactorAbsorberPortBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
+    public static final Block REACTOR_ENERGY_PORT = new ReactorEnergyPortBlock(AbstractBlock.Settings.copy(Blocks.IRON_BLOCK));
     
     // cooling cell, early game re-fillable component
     

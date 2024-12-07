@@ -6,7 +6,7 @@
       "item": "oritech:energite_ingot"
     },
     "s": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "w": {
       "tag": "c:ingots/steel"

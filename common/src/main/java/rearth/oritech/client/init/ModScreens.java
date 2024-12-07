@@ -32,6 +32,7 @@ public class ModScreens implements ArchitecturyRegistryContainer<ScreenHandlerTy
     public static final ExtendedScreenHandlerType<BasicMachineScreenHandler, BasicData> TANK_SCREEN = basicHandler();
     public static final ExtendedScreenHandlerType<BasicMachineScreenHandler, BasicData> TREEFELLER_SCREEN = basicHandler();
     public static final ExtendedScreenHandlerType<BasicMachineScreenHandler, BasicData> CHARGER_SCREEN = basicHandler();
+    public static final ExtendedScreenHandlerType<BasicMachineScreenHandler, BasicData> FUEL_PORT_SCREEN = basicHandler();
     
     public static final ExtendedScreenHandlerType<UpgradableMachineScreenHandler, UpgradableData> PULVERIZER_SCREEN = upgradeHandler();
     public static final ExtendedScreenHandlerType<UpgradableMachineScreenHandler, UpgradableData> GRINDER_SCREEN = upgradeHandler();
@@ -67,6 +68,7 @@ public class ModScreens implements ArchitecturyRegistryContainer<ScreenHandlerTy
         HandledScreens.register(ENCHANTER_SCREEN, EnchanterScreen::new);
         HandledScreens.register(ACCELERATOR_SCREEN, AcceleratorScreen::new);
         HandledScreens.register(CHARGER_SCREEN, BasicMachineScreen<BasicMachineScreenHandler>::new);
+        HandledScreens.register(FUEL_PORT_SCREEN, BasicMachineScreen<BasicMachineScreenHandler>::new);
         
         HandledScreens.register(PULVERIZER_SCREEN, UpgradableMachineScreen<UpgradableMachineScreenHandler>::new);
         HandledScreens.register(GRINDER_SCREEN, UpgradableMachineScreen<UpgradableMachineScreenHandler>::new);

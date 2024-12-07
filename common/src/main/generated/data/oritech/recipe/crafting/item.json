@@ -3,7 +3,7 @@
   "category": "misc",
   "key": {
     "c": {
-      "item": "oritech:nickel_ingot"
+      "tag": "c:ingots/nickel"
     },
     "i": {
       "tag": "minecraft:planks"

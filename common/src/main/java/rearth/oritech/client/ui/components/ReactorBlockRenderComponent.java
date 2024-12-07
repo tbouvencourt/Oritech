@@ -19,12 +19,12 @@ public class ReactorBlockRenderComponent extends BaseComponent {
     
     private final MinecraftClient client = MinecraftClient.getInstance();
     
-    public final BlockState state;
+    public BlockState state;
     private final @Nullable BlockEntity entity;
-    private final int zIndex;
-    public final BlockPos pos;
+    public float zIndex;
+    public BlockPos pos;
     
-    public ReactorBlockRenderComponent(BlockState state, @Nullable BlockEntity entity, int zIndex, BlockPos pos) {
+    public ReactorBlockRenderComponent(BlockState state, @Nullable BlockEntity entity, float zIndex, BlockPos pos) {
         this.state = state;
         this.entity = entity;
         this.zIndex = zIndex;

@@ -6,7 +6,7 @@
       "item": "minecraft:furnace"
     },
     "c": {
-      "item": "oritech:electrum_ingot"
+      "tag": "c:ingots/electrum"
     },
     "f": {
       "item": "minecraft:copper_ingot"

@@ -9,7 +9,7 @@
       "item": "oritech:fluxite"
     },
     {
-      "item": "oritech:electrum_dust"
+      "tag": "c:dusts/electrum"
     }
   ],
   "results": [

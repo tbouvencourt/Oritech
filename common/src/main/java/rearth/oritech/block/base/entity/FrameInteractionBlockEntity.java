@@ -39,6 +39,7 @@ public abstract class FrameInteractionBlockEntity extends BlockEntity implements
     private boolean moving;    // not synced
     private Vec3i currentDirection = new Vec3i(1, 0, 0);    // not synced
     public long lastWorkedAt;   // not synced
+    public boolean disabledViaRedstone;
     
     // client only
     private long moveStartedAt;
@@ -328,7 +329,7 @@ public abstract class FrameInteractionBlockEntity extends BlockEntity implements
     }
     
     public void updateNetwork() {
-        NetworkContent.MACHINE_CHANNEL.serverHandle(this).send(new NetworkContent.MachineFrameMovementPacket(pos, currentTarget, lastTarget, areaMin, areaMax));
+        NetworkContent.MACHINE_CHANNEL.serverHandle(this).send(new NetworkContent.MachineFrameMovementPacket(pos, currentTarget, lastTarget, areaMin, areaMax, disabledViaRedstone));
     }
     
     @Override

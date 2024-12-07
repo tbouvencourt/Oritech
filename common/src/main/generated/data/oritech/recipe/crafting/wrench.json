@@ -3,10 +3,10 @@
   "category": "misc",
   "key": {
     "a": {
-      "tag": "c:ingots/nickel"
+      "tag": "c:ingots/steel"
     },
     "b": {
-      "tag": "c:ingots/steel"
+      "tag": "c:ingots/nickel"
     }
   },
   "pattern": [
